@@ -1,0 +1,2 @@
+# vedatdeleksite
+astroloji
