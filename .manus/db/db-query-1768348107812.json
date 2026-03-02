@@ -1,0 +1,17 @@
+{
+  "query": "SELECT id, openId, name, email, role FROM users LIMIT 10;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway03.us-east-1.prod.aws.tidbcloud.com --port 4000 --user Lw1WVkY3EaZVe9D.root --database aByRqaJkbsvpuKDRGUcNGU --execute SELECT id, openId, name, email, role FROM users LIMIT 10;",
+  "rows": [
+    {
+      "id": "1",
+      "openId": "jYgaXiTb7szcgk7vqDPhTX",
+      "name": "Sertan KIRÇO",
+      "email": "sertankirco@gmail.com",
+      "role": "admin"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\topenId\tname\temail\trole\n1\tjYgaXiTb7szcgk7vqDPhTX\tSertan KIRÇO\tsertankirco@gmail.com\tadmin\n",
+  "stderr": "",
+  "execution_time_ms": 1646
+}
