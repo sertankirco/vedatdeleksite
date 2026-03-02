@@ -29,7 +29,7 @@ function Router() {
         <Route path={"/blog"} component={Blog} />
         <Route path={"/blog/:id"} component={BlogDetail} />
         <Route path={"/books"} component={Books} />
-        <Route path={"/a"} component={Admin} />
+        <Route path={"/admin"} component={Admin} />
         <Route path={"/profile"} component={Profile} />
         <Route path={"/404"} component={NotFound} />
         <Route component={NotFound} />
