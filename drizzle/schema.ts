@@ -1,134 +1,130 @@
-import { int, mysqlEnum, mysqlTable, text, timestamp, varchar } from "drizzle-orm/mysql-core";
+import { integer, sqliteTable, text } from "drizzle-orm/sqlite-core";
 
 /**
  * Core user table backing auth flow.
  * Extend this file with additional tables as your product grows.
  * Columns use camelCase to match both database fields and generated types.
  */
-export const users = mysqlTable("users", {
-  /**
-   * Surrogate primary key. Auto-incremented numeric value managed by the database.
-   * Use this for relations between tables.
-   */
-  id: int("id").autoincrement().primaryKey(),
-  /** Manus OAuth identifier (openId) returned from the OAuth callback. Unique per user. */
-  openId: varchar("openId", { length: 64 }).notNull().unique(),
+export const users = sqliteTable("users", {
+  id: integer("id").primaryKey(),
+  openId: text("openId").unique(),
   name: text("name"),
-  email: varchar("email", { length: 320 }),
-  loginMethod: varchar("loginMethod", { length: 64 }),
-  role: mysqlEnum("role", ["user", "admin"]).default("user").notNull(),
-  createdAt: timestamp("createdAt").defaultNow().notNull(),
-  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
-  lastSignedIn: timestamp("lastSignedIn").defaultNow().notNull(),
+  email: text("email").unique(),
+  password: text("password"),
+  loginMethod: text("loginMethod").default("local"),
+  role: text("role").default("user").notNull(),
+  createdAt: text("createdAt").default("CURRENT_TIMESTAMP").notNull(),
+  updatedAt: text("updatedAt").default("CURRENT_TIMESTAMP").notNull(),
+  lastSignedIn: text("lastSignedIn").default("CURRENT_TIMESTAMP").notNull(),
 });
 
 export type User = typeof users.$inferSelect;
 export type InsertUser = typeof users.$inferInsert;
 
 // Zodiac signs reference table
-export const zodiacSigns = mysqlTable("zodiac_signs", {
-  id: int("id").autoincrement().primaryKey(),
-  name: varchar("name", { length: 64 }).notNull(), // Greek name
-  nameEn: varchar("nameEn", { length: 64 }).notNull(), // English name
-  nameTr: varchar("nameTr", { length: 64 }).notNull(), // Turkish name
-  dates: varchar("dates", { length: 64 }).notNull(),
-  icon: varchar("icon", { length: 10 }).notNull(), // Zodiac symbol
+export const zodiacSigns = sqliteTable("zodiac_signs", {
+  id: integer("id").primaryKey(),
+  name: text("name").notNull(), // Greek name
+  nameEn: text("nameEn").notNull(), // English name
+  nameTr: text("nameTr").notNull(), // Turkish name
+  dates: text("dates").notNull(),
+  icon: text("icon").notNull(), // Zodiac symbol
 });
 
 export type ZodiacSign = typeof zodiacSigns.$inferSelect;
 
 // Daily horoscopes
-export const horoscopes = mysqlTable("horoscopes", {
-  id: int("id").autoincrement().primaryKey(),
-  zodiacSignId: int("zodiac_sign_id").notNull(),
-  date: varchar("date", { length: 10 }).notNull(), // YYYY-MM-DD format
+export const horoscopes = sqliteTable("horoscopes", {
+  id: integer("id").primaryKey(),
+  zodiacSignId: integer("zodiac_sign_id").notNull(),
+  date: text("date").notNull(), // YYYY-MM-DD format
   textEl: text("text_el"), // Greek text
   textEn: text("text_en"), // English text
   textTr: text("text_tr"), // Turkish text
-  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  createdAt: text("createdAt").default("CURRENT_TIMESTAMP").notNull(),
 });
 
 export type Horoscope = typeof horoscopes.$inferSelect;
 
 // Chat messages between users and AI
-export const chatMessages = mysqlTable("chat_messages", {
-  id: int("id").autoincrement().primaryKey(),
-  userId: int("user_id").notNull(),
-  role: mysqlEnum("role", ["user", "assistant"]).notNull(),
+export const chatMessages = sqliteTable("chat_messages", {
+  id: integer("id").primaryKey(),
+  userId: integer("user_id").notNull(),
+  role: text("role").notNull(),
   content: text("content").notNull(),
-  language: mysqlEnum("language", ["el", "en", "tr"]).default("el").notNull(),
-  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  language: text("language").default("el").notNull(),
+  createdAt: text("createdAt").default("CURRENT_TIMESTAMP").notNull(),
 });
 
 export type ChatMessage = typeof chatMessages.$inferSelect;
 
 // Products/Services
-export const products = mysqlTable("products", {
-  id: int("id").autoincrement().primaryKey(),
-  titleEl: varchar("title_el", { length: 255 }).notNull(),
-  titleEn: varchar("title_en", { length: 255 }).notNull(),
-  titleTr: varchar("title_tr", { length: 255 }).notNull(),
+export const products = sqliteTable("products", {
+  id: integer("id").primaryKey(),
+  titleEl: text("title_el").notNull(),
+  titleEn: text("title_en").notNull(),
+  titleTr: text("title_tr").notNull(),
   descriptionEl: text("description_el"),
   descriptionEn: text("description_en"),
   descriptionTr: text("description_tr"),
-  price: varchar("price", { length: 64 }).notNull(),
-  imageUrl: varchar("image_url", { length: 512 }),
-  buyLink: varchar("buy_link", { length: 512 }).notNull(),
-  category: varchar("category", { length: 64 }), // e.g., 'natal', 'synastry', 'book'
-  createdAt: timestamp("createdAt").defaultNow().notNull(),
-  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+  price: text("price").notNull(),
+  imageUrl: text("image_url"),
+  buyLink: text("buy_link").notNull(),
+  category: text("category"), // e.g., 'natal', 'synastry', 'book'
+  createdAt: text("createdAt").default("CURRENT_TIMESTAMP").notNull(),
+  updatedAt: text("updatedAt").default("CURRENT_TIMESTAMP").notNull(),
 });
 
 export type Product = typeof products.$inferSelect;
 export type InsertProduct = typeof products.$inferInsert;
 
 // Blog posts
-export const blogPosts = mysqlTable("blog_posts", {
-  id: int("id").autoincrement().primaryKey(),
-  titleEl: varchar("title_el", { length: 255 }).notNull(),
-  titleEn: varchar("title_en", { length: 255 }).notNull(),
-  titleTr: varchar("title_tr", { length: 255 }).notNull(),
+export const blogPosts = sqliteTable("blog_posts", {
+  id: integer("id").primaryKey(),
+  titleEl: text("title_el").notNull(),
+  titleEn: text("title_en").notNull(),
+  titleTr: text("title_tr").notNull(),
   excerptEl: text("excerpt_el"),
   excerptEn: text("excerpt_en"),
   excerptTr: text("excerpt_tr"),
   contentEl: text("content_el"),
   contentEn: text("content_en"),
   contentTr: text("content_tr"),
-  imageUrl: varchar("image_url", { length: 512 }),
-  publishedAt: timestamp("published_at").defaultNow().notNull(),
-  createdAt: timestamp("createdAt").defaultNow().notNull(),
-  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+  imageUrl: text("image_url"),
+  publishedAt: text("published_at").default("CURRENT_TIMESTAMP").notNull(),
+  createdAt: text("createdAt").default("CURRENT_TIMESTAMP").notNull(),
+  updatedAt: text("updatedAt").default("CURRENT_TIMESTAMP").notNull(),
 });
 
 export type BlogPost = typeof blogPosts.$inferSelect;
 export type InsertBlogPost = typeof blogPosts.$inferInsert;
 
 // Videos
-export const videos = mysqlTable("videos", {
-  id: int("id").autoincrement().primaryKey(),
-  titleEl: varchar("title_el", { length: 255 }).notNull(),
-  titleEn: varchar("title_en", { length: 255 }).notNull(),
-  titleTr: varchar("title_tr", { length: 255 }).notNull(),
-  youtubeUrl: varchar("youtube_url", { length: 512 }).notNull(),
+export const videos = sqliteTable("videos", {
+  id: integer("id").primaryKey(),
+  titleEl: text("title_el").notNull(),
+  titleEn: text("title_en").notNull(),
+  titleTr: text("title_tr").notNull(),
+  youtubeUrl: text("youtube_url").notNull(),
   descriptionEl: text("description_el"),
   descriptionEn: text("description_en"),
   descriptionTr: text("description_tr"),
-  publishedAt: timestamp("published_at").defaultNow().notNull(),
-  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  publishedAt: text("published_at").default("CURRENT_TIMESTAMP").notNull(),
+  createdAt: text("createdAt").default("CURRENT_TIMESTAMP").notNull(),
 });
 
 export type Video = typeof videos.$inferSelect;
 export type InsertVideo = typeof videos.$inferInsert;
 
 // User preferences
-export const userPreferences = mysqlTable("user_preferences", {
-  id: int("id").autoincrement().primaryKey(),
-  userId: int("user_id").notNull().unique(),
-  language: mysqlEnum("language", ["el", "en", "tr"]).default("el").notNull(),
-  zodiacSignId: int("zodiac_sign_id"),
-  theme: mysqlEnum("theme", ["light", "dark"]).default("light").notNull(),
-  createdAt: timestamp("createdAt").defaultNow().notNull(),
-  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+export const userPreferences = sqliteTable("user_preferences", {
+  id: integer("id").primaryKey(),
+  userId: integer("user_id").notNull().unique(),
+  language: text("language").default("el").notNull(),
+  zodiacSignId: integer("zodiac_sign_id"),
+  theme: text("theme").default("light").notNull(),
+  createdAt: text("createdAt").default("CURRENT_TIMESTAMP").notNull(),
+  updatedAt: text("updatedAt").default("CURRENT_TIMESTAMP").notNull(),
 });
 
 export type UserPreferences = typeof userPreferences.$inferSelect;

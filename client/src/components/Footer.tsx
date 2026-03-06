@@ -7,64 +7,64 @@ export default function Footer() {
   const currentYear = new Date().getFullYear();
 
   const footerStyle = {
-    backgroundColor: '#FFFFFF',
-    color: '#1E90FF',
-    borderTop: '1px solid #E2E8F0',
-    marginTop: '4rem',
+    backgroundColor: "#FFFFFF",
+    color: "#1E90FF",
+    borderTop: "1px solid #E2E8F0",
+    marginTop: "4rem",
   };
 
   const containerStyle = {
-    maxWidth: '80rem',
-    margin: '0 auto',
-    padding: '0 1rem',
-    paddingTop: '3rem',
-    paddingBottom: '3rem',
+    maxWidth: "80rem",
+    margin: "0 auto",
+    padding: "0 1rem",
+    paddingTop: "3rem",
+    paddingBottom: "3rem",
   };
 
   const gridStyle = {
-    display: 'grid',
-    gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
-    gap: '2rem',
-    marginBottom: '2rem',
+    display: "grid",
+    gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))",
+    gap: "2rem",
+    marginBottom: "2rem",
   };
 
   const columnStyle = {
-    backgroundColor: '#FFFFFF',
+    backgroundColor: "#FFFFFF",
   };
 
   const headingStyle = {
-    fontWeight: '600',
-    marginBottom: '1rem',
-    color: '#1E90FF',
-    backgroundColor: '#FFFFFF',
+    fontWeight: "600",
+    marginBottom: "1rem",
+    color: "#1E90FF",
+    backgroundColor: "#FFFFFF",
   };
 
   const textStyle = {
-    fontSize: '0.875rem',
-    color: '#1E90FF',
-    backgroundColor: '#FFFFFF',
+    fontSize: "0.875rem",
+    color: "#1E90FF",
+    backgroundColor: "#FFFFFF",
   };
 
   const linkStyle = {
-    color: '#1E90FF',
-    textDecoration: 'none',
-    transition: 'color 0.3s',
-    backgroundColor: '#FFFFFF',
+    color: "#1E90FF",
+    textDecoration: "none",
+    transition: "color 0.3s",
+    backgroundColor: "#FFFFFF",
   };
 
   const dividerStyle = {
-    borderTop: '1px solid #E2E8F0',
-    paddingTop: '2rem',
-    backgroundColor: '#FFFFFF',
+    borderTop: "1px solid #E2E8F0",
+    paddingTop: "2rem",
+    backgroundColor: "#FFFFFF",
   };
 
   const bottomStyle: React.CSSProperties = {
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    gap: '1rem',
-    backgroundColor: '#FFFFFF',
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    justifyContent: "space-between",
+    gap: "1rem",
+    backgroundColor: "#FFFFFF",
   };
 
   return (
@@ -73,21 +73,45 @@ export default function Footer() {
         <div style={gridStyle}>
           {/* Brand */}
           <div style={columnStyle}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '1rem' }}>
-              <div style={{ fontSize: '1.5rem' }}>✨</div>
-              <span style={{ fontWeight: 'bold', fontSize: '1.125rem', color: '#1E90FF', backgroundColor: '#FFFFFF' }}>
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                gap: "0.5rem",
+                marginBottom: "1rem",
+              }}
+            >
+              <div style={{ fontSize: "1.5rem" }}>✨</div>
+              <span
+                style={{
+                  fontWeight: "bold",
+                  fontSize: "1.125rem",
+                  color: "#1E90FF",
+                  backgroundColor: "#FFFFFF",
+                }}
+              >
                 Vedat Delek
               </span>
             </div>
             <p style={textStyle}>
-              Yıldızların rehberliğinde yaşamı anlamak ve geleceği şekillendirmek.
+              Yıldızların rehberliğinde yaşamı anlamak ve geleceği
+              şekillendirmek.
             </p>
           </div>
 
           {/* Quick Links */}
           <div style={columnStyle}>
             <h3 style={headingStyle}>Hızlı Bağlantılar</h3>
-            <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column' as const, gap: '0.5rem' }}>
+            <ul
+              style={{
+                listStyle: "none",
+                padding: 0,
+                margin: 0,
+                display: "flex",
+                flexDirection: "column" as const,
+                gap: "0.5rem",
+              }}
+            >
               <li>
                 <Link href="/biography" style={linkStyle}>
                   Biyografi
@@ -100,6 +124,11 @@ export default function Footer() {
               </li>
               <li>
                 <Link href="/books" style={linkStyle}>
+                  Kitaplar
+                </Link>
+              </li>
+              <li>
+                <Link href="/shop" style={linkStyle}>
                   Hizmetler
                 </Link>
               </li>
@@ -109,7 +138,16 @@ export default function Footer() {
           {/* Resources */}
           <div style={columnStyle}>
             <h3 style={headingStyle}>Kaynaklar</h3>
-            <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column' as const, gap: '0.5rem' }}>
+            <ul
+              style={{
+                listStyle: "none",
+                padding: 0,
+                margin: 0,
+                display: "flex",
+                flexDirection: "column" as const,
+                gap: "0.5rem",
+              }}
+            >
               <li>
                 <a href="#" style={linkStyle}>
                   Hakkında
@@ -136,7 +174,16 @@ export default function Footer() {
           {/* Social */}
           <div style={columnStyle}>
             <h3 style={headingStyle}>Bizi Takip Edin</h3>
-            <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column' as const, gap: '0.5rem' }}>
+            <ul
+              style={{
+                listStyle: "none",
+                padding: 0,
+                margin: 0,
+                display: "flex",
+                flexDirection: "column" as const,
+                gap: "0.5rem",
+              }}
+            >
               <li>
                 <a href="#" style={linkStyle}>
                   Instagram
@@ -165,10 +212,22 @@ export default function Footer() {
         <div style={dividerStyle}>
           <div style={bottomStyle}>
             <p style={textStyle}>
-              © {currentYear} Vedat Delek Astroloji Platformu. Tüm hakları saklıdır.
+              © {currentYear} Vedat Delek Astroloji Platformu. Tüm hakları
+              saklıdır.
             </p>
-            <p style={{ ...textStyle, display: 'flex', alignItems: 'center', gap: '0.25rem' }}>
-              Made with <Heart style={{ width: '1rem', height: '1rem', color: '#EF4444' }} /> by Manus
+            <p
+              style={{
+                ...textStyle,
+                display: "flex",
+                alignItems: "center",
+                gap: "0.25rem",
+              }}
+            >
+              Made with{" "}
+              <Heart
+                style={{ width: "1rem", height: "1rem", color: "#EF4444" }}
+              />{" "}
+              by Manus
             </p>
           </div>
         </div>

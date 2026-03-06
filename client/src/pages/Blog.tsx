@@ -14,27 +14,27 @@ export default function Blog() {
 
   // Helper functions for multilingual content
   const getTitle = (post: any) => {
-    if (language === 'tr') return post.titleTr;
-    if (language === 'en') return post.titleEn;
+    if (language === "tr") return post.titleTr;
+    if (language === "en") return post.titleEn;
     return post.titleEl;
   };
 
   const getExcerpt = (post: any) => {
-    if (language === 'tr') return post.excerptTr;
-    if (language === 'en') return post.excerptEn;
+    if (language === "tr") return post.excerptTr;
+    if (language === "en") return post.excerptEn;
     return post.excerptEl;
   };
 
   const getCategory = (post: any) => {
-    if (language === 'tr') return post.categoryTr || 'Astroloji';
-    if (language === 'en') return post.categoryEn || 'Astrology';
-    return post.categoryEl || 'Αστρολογία';
+    if (language === "tr") return post.categoryTr || "Astroloji";
+    if (language === "en") return post.categoryEn || "Astrology";
+    return post.categoryEl || "Αστρολογία";
   };
 
   const formatDate = (date: Date) => {
     return new Date(date).toLocaleDateString(
-      language === 'tr' ? 'tr-TR' : language === 'en' ? 'en-US' : 'el-GR',
-      { year: 'numeric', month: 'long', day: 'numeric' }
+      language === "tr" ? "tr-TR" : language === "en" ? "en-US" : "el-GR",
+      { year: "numeric", month: "long", day: "numeric" }
     );
   };
 
@@ -46,23 +46,25 @@ export default function Blog() {
   };
 
   const getReadingTimeText = (minutes: number) => {
-    if (language === 'tr') return `${minutes} dk okuma`;
-    if (language === 'en') return `${minutes} min read`;
+    if (language === "tr") return `${minutes} dk okuma`;
+    if (language === "en") return `${minutes} min read`;
     return `${minutes} λ ανάγνωση`;
   };
 
   // Filter and search posts
   const filteredPosts = useMemo(() => {
     if (!posts) return [];
-    
+
     return posts.filter(post => {
       const title = getTitle(post).toLowerCase();
       const excerpt = getExcerpt(post).toLowerCase();
       const searchLower = searchQuery.toLowerCase();
-      
-      const matchesSearch = title.includes(searchLower) || excerpt.includes(searchLower);
-      const matchesCategory = !selectedCategory || getCategory(post) === selectedCategory;
-      
+
+      const matchesSearch =
+        title.includes(searchLower) || excerpt.includes(searchLower);
+      const matchesCategory =
+        !selectedCategory || getCategory(post) === selectedCategory;
+
       return matchesSearch && matchesCategory;
     });
   }, [posts, searchQuery, selectedCategory, language]);
@@ -80,10 +82,10 @@ export default function Blog() {
         {/* Header */}
         <div className="text-center mb-12">
           <h1 className="text-hero mb-4 bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-            {t('blog.title')}
+            {t("blog.title")}
           </h1>
           <p className="text-subtitle text-slate-600 dark:text-slate-400">
-            {t('blog.subtitle')}
+            {t("blog.subtitle")}
           </p>
         </div>
 
@@ -100,9 +102,15 @@ export default function Blog() {
                 <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-slate-400" />
                 <input
                   type="text"
-                  placeholder={language === 'tr' ? 'Yazılarda ara...' : language === 'en' ? 'Search posts...' : 'Αναζήτηση άρθρων...'}
+                  placeholder={
+                    language === "tr"
+                      ? "Yazılarda ara..."
+                      : language === "en"
+                        ? "Search posts..."
+                        : "Αναζήτηση άρθρων..."
+                  }
                   value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
+                  onChange={e => setSearchQuery(e.target.value)}
                   className="w-full pl-12 pr-4 py-3 rounded-full border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 />
               </div>
@@ -113,20 +121,24 @@ export default function Blog() {
                   onClick={() => setSelectedCategory(null)}
                   className={`px-6 py-2 rounded-full font-medium transition-all ${
                     selectedCategory === null
-                      ? 'bg-blue-600 text-white shadow-lg'
-                      : 'bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700 hover:border-blue-400'
+                      ? "bg-blue-600 text-white shadow-lg"
+                      : "bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700 hover:border-blue-400"
                   }`}
                 >
-                  {language === 'tr' ? 'Tümü' : language === 'en' ? 'All' : 'Όλα'}
+                  {language === "tr"
+                    ? "Tümü"
+                    : language === "en"
+                      ? "All"
+                      : "Όλα"}
                 </button>
-                {categories.map((category) => (
+                {categories.map(category => (
                   <button
                     key={category}
                     onClick={() => setSelectedCategory(category)}
                     className={`px-6 py-2 rounded-full font-medium transition-all ${
                       selectedCategory === category
-                        ? 'bg-blue-600 text-white shadow-lg'
-                        : 'bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700 hover:border-blue-400'
+                        ? "bg-blue-600 text-white shadow-lg"
+                        : "bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700 hover:border-blue-400"
                     }`}
                   >
                     {category}
@@ -138,7 +150,7 @@ export default function Blog() {
             {/* Blog Posts Grid */}
             {filteredPosts.length > 0 ? (
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                {filteredPosts.map((post) => (
+                {filteredPosts.map(post => (
                   <Link key={post.id} href={`/blog/${post.id}`}>
                     <Card className="h-full overflow-hidden hover:shadow-xl transition-all duration-300 cursor-pointer group bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700">
                       {/* Image Container */}
@@ -154,7 +166,7 @@ export default function Blog() {
                             <span className="text-white text-4xl">📝</span>
                           </div>
                         )}
-                        
+
                         {/* Category Badge */}
                         <div className="absolute top-4 left-4">
                           <span className="inline-block bg-blue-600 text-white text-xs font-bold px-3 py-1 rounded-full">
@@ -185,13 +197,23 @@ export default function Blog() {
                             </div>
                             <div className="flex items-center gap-1">
                               <Clock className="w-4 h-4" />
-                              <span>{getReadingTimeText(getReadingTime(getExcerpt(post)))}</span>
+                              <span>
+                                {getReadingTimeText(
+                                  getReadingTime(getExcerpt(post))
+                                )}
+                              </span>
                             </div>
                           </div>
 
                           {/* Read More Link */}
                           <div className="flex items-center gap-2 text-blue-600 dark:text-blue-400 font-semibold text-sm group-hover:gap-3 transition-all">
-                            <span>{language === 'tr' ? 'Devamını Oku' : language === 'en' ? 'Read More' : 'Διαβάστε περισσότερα'}</span>
+                            <span>
+                              {language === "tr"
+                                ? "Devamını Oku"
+                                : language === "en"
+                                  ? "Read More"
+                                  : "Διαβάστε περισσότερα"}
+                            </span>
                             <ArrowRight className="w-4 h-4" />
                           </div>
                         </div>
@@ -203,7 +225,11 @@ export default function Blog() {
             ) : (
               <div className="text-center py-12">
                 <p className="text-slate-600 dark:text-slate-400 text-lg">
-                  {language === 'tr' ? 'Arama sonucu bulunamadı.' : language === 'en' ? 'No posts found.' : 'Δεν βρέθηκαν άρθρα.'}
+                  {language === "tr"
+                    ? "Arama sonucu bulunamadı."
+                    : language === "en"
+                      ? "No posts found."
+                      : "Δεν βρέθηκαν άρθρα."}
                 </p>
               </div>
             )}
@@ -211,7 +237,7 @@ export default function Blog() {
         ) : (
           <div className="text-center py-12">
             <p className="text-slate-600 dark:text-slate-400 text-lg">
-              {t('blog.empty')}
+              {t("blog.empty")}
             </p>
           </div>
         )}

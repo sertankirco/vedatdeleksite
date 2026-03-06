@@ -1,7 +1,8 @@
 export const ENV = {
   googleClientId: process.env.GOOGLE_CLIENT_ID ?? "",
   googleClientSecret: process.env.GOOGLE_CLIENT_SECRET ?? "",
-  cookieSecret: process.env.JWT_SECRET ?? "fallback_cookie_secret_override_in_prod",
+  cookieSecret:
+    process.env.JWT_SECRET ?? "fallback_cookie_secret_override_in_prod",
   databaseUrl: process.env.DATABASE_URL ?? "",
   ownerOpenId: process.env.OWNER_OPEN_ID ?? "",
   isProduction: process.env.NODE_ENV === "production",

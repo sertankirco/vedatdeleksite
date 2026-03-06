@@ -14,7 +14,8 @@ import Profile from "./pages/Profile";
 import Contact from "./pages/Contact";
 import BlogDetail from "./pages/BlogDetail";
 import Books from "./pages/Books";
-
+import Login from "./pages/Login";
+import Shop from "./pages/Shop";
 
 function Router() {
   // make sure to consider if you need authentication for certain routes
@@ -24,6 +25,8 @@ function Router() {
       <Switch>
         <Route path={"/"} component={Home} />
         <Route path={"/biography"} component={Biography} />
+        <Route path={"/login"} component={Login} />
+        <Route path={"/shop"} component={Shop} />
 
         <Route path={"/contact"} component={Contact} />
         <Route path={"/blog"} component={Blog} />

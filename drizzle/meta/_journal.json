@@ -15,6 +15,13 @@
       "when": 1768346319338,
       "tag": "0001_skinny_northstar",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "5",
+      "when": 1772548344985,
+      "tag": "0002_freezing_stepford_cuckoos",
+      "breakpoints": true
     }
   ]
 }

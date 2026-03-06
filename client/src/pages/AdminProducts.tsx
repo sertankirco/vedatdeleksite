@@ -53,7 +53,12 @@ export default function AdminProducts() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!formData.nameTr || !formData.nameEn || !formData.nameEl || !formData.price) {
+    if (
+      !formData.nameTr ||
+      !formData.nameEn ||
+      !formData.nameEl ||
+      !formData.price
+    ) {
       toast.error("Tüm dillerde ad ve fiyat gerekli!");
       return;
     }
@@ -113,13 +118,17 @@ export default function AdminProducts() {
               <input
                 type="text"
                 value={formData.nameTr}
-                onChange={(e) => setFormData({ ...formData, nameTr: e.target.value })}
+                onChange={e =>
+                  setFormData({ ...formData, nameTr: e.target.value })
+                }
                 className="w-full px-4 py-2 border rounded-lg dark:bg-slate-800 dark:border-slate-600 mb-2"
                 placeholder="Ürün adı (Türkçe)"
               />
               <textarea
                 value={formData.descriptionTr}
-                onChange={(e) => setFormData({ ...formData, descriptionTr: e.target.value })}
+                onChange={e =>
+                  setFormData({ ...formData, descriptionTr: e.target.value })
+                }
                 className="w-full px-4 py-2 border rounded-lg dark:bg-slate-800 dark:border-slate-600 h-16"
                 placeholder="Açıklama (Türkçe)"
               />
@@ -131,13 +140,17 @@ export default function AdminProducts() {
               <input
                 type="text"
                 value={formData.nameEn}
-                onChange={(e) => setFormData({ ...formData, nameEn: e.target.value })}
+                onChange={e =>
+                  setFormData({ ...formData, nameEn: e.target.value })
+                }
                 className="w-full px-4 py-2 border rounded-lg dark:bg-slate-800 dark:border-slate-600 mb-2"
                 placeholder="Product name (English)"
               />
               <textarea
                 value={formData.descriptionEn}
-                onChange={(e) => setFormData({ ...formData, descriptionEn: e.target.value })}
+                onChange={e =>
+                  setFormData({ ...formData, descriptionEn: e.target.value })
+                }
                 className="w-full px-4 py-2 border rounded-lg dark:bg-slate-800 dark:border-slate-600 h-16"
                 placeholder="Description (English)"
               />
@@ -149,13 +162,17 @@ export default function AdminProducts() {
               <input
                 type="text"
                 value={formData.nameEl}
-                onChange={(e) => setFormData({ ...formData, nameEl: e.target.value })}
+                onChange={e =>
+                  setFormData({ ...formData, nameEl: e.target.value })
+                }
                 className="w-full px-4 py-2 border rounded-lg dark:bg-slate-800 dark:border-slate-600 mb-2"
                 placeholder="Όνομα προϊόντος (Ελληνικά)"
               />
               <textarea
                 value={formData.descriptionEl}
-                onChange={(e) => setFormData({ ...formData, descriptionEl: e.target.value })}
+                onChange={e =>
+                  setFormData({ ...formData, descriptionEl: e.target.value })
+                }
                 className="w-full px-4 py-2 border rounded-lg dark:bg-slate-800 dark:border-slate-600 h-16"
                 placeholder="Περιγραφή (Ελληνικά)"
               />
@@ -164,32 +181,44 @@ export default function AdminProducts() {
             {/* Price, Image URL and Buy Link */}
             <div className="grid md:grid-cols-3 gap-4">
               <div>
-                <label className="block text-sm font-medium mb-2">Fiyat ($)</label>
+                <label className="block text-sm font-medium mb-2">
+                  Fiyat ($)
+                </label>
                 <input
                   type="number"
                   step="0.01"
                   value={formData.price}
-                  onChange={(e) => setFormData({ ...formData, price: e.target.value })}
+                  onChange={e =>
+                    setFormData({ ...formData, price: e.target.value })
+                  }
                   className="w-full px-4 py-2 border rounded-lg dark:bg-slate-800 dark:border-slate-600"
                   placeholder="0.00"
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium mb-2">Ürün Görseli URL</label>
+                <label className="block text-sm font-medium mb-2">
+                  Ürün Görseli URL
+                </label>
                 <input
                   type="text"
                   value={formData.imageUrl}
-                  onChange={(e) => setFormData({ ...formData, imageUrl: e.target.value })}
+                  onChange={e =>
+                    setFormData({ ...formData, imageUrl: e.target.value })
+                  }
                   className="w-full px-4 py-2 border rounded-lg dark:bg-slate-800 dark:border-slate-600"
                   placeholder="https://example.com/image.jpg"
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium mb-2">Satın Alma Linki</label>
+                <label className="block text-sm font-medium mb-2">
+                  Satın Alma Linki
+                </label>
                 <input
                   type="text"
                   value={formData.etsyUrl}
-                  onChange={(e) => setFormData({ ...formData, etsyUrl: e.target.value })}
+                  onChange={e =>
+                    setFormData({ ...formData, etsyUrl: e.target.value })
+                  }
                   className="w-full px-4 py-2 border rounded-lg dark:bg-slate-800 dark:border-slate-600"
                   placeholder="https://etsy.com/... veya başka pazar yeri linki"
                 />
@@ -197,10 +226,22 @@ export default function AdminProducts() {
             </div>
 
             <div className="flex gap-2">
-              <Button type="submit" className="btn-astro-primary" disabled={createMutation.isPending}>
-                {createMutation.isPending ? <Loader2 className="w-4 h-4 animate-spin" /> : "Ekle"}
+              <Button
+                type="submit"
+                className="btn-astro-primary"
+                disabled={createMutation.isPending}
+              >
+                {createMutation.isPending ? (
+                  <Loader2 className="w-4 h-4 animate-spin" />
+                ) : (
+                  "Ekle"
+                )}
               </Button>
-              <Button type="button" onClick={() => setIsCreating(false)} className="btn-astro-secondary">
+              <Button
+                type="button"
+                onClick={() => setIsCreating(false)}
+                className="btn-astro-secondary"
+              >
                 İptal
               </Button>
             </div>
@@ -226,8 +267,11 @@ export default function AdminProducts() {
                 </td>
               </tr>
             ) : products && products.length > 0 ? (
-              products.map((product) => (
-                <tr key={product.id} className="border-b dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-800">
+              products.map(product => (
+                <tr
+                  key={product.id}
+                  className="border-b dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-800"
+                >
                   <td className="p-4">
                     <div>
                       <p className="font-semibold">{getName(product)}</p>
@@ -250,7 +294,9 @@ export default function AdminProducts() {
                       )}
                       <Button
                         size="sm"
-                        onClick={() => deleteMutation.mutate({ id: product.id })}
+                        onClick={() =>
+                          deleteMutation.mutate({ id: product.id })
+                        }
                         disabled={deleteMutation.isPending}
                         className="btn-astro-danger"
                       >

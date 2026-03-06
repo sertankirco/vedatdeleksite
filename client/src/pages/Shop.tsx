@@ -28,14 +28,18 @@ export default function Shop() {
   };
 
   const getSubHeaderText = () => {
-    if (language === "tr") return "Vedat Delek'in özel danışmanlık ve analiz hizmetleri";
-    if (language === "en") return "Vedat Delek's exclusive consulting and analysis services";
+    if (language === "tr")
+      return "Vedat Delek'in özel danışmanlık ve analiz hizmetleri";
+    if (language === "en")
+      return "Vedat Delek's exclusive consulting and analysis services";
     return "Αποκλειστικές υπηρεσίες συμβουλευτικής και ανάλυσης του Vedat Delek";
   };
 
   const getEmptyText = () => {
-    if (language === "tr") return "Şu anda hiçbir hizmet bulunmamaktadır. Lütfen daha sonra tekrar kontrol edin.";
-    if (language === "en") return "No services available at the moment. Please check back later.";
+    if (language === "tr")
+      return "Şu anda hiçbir hizmet bulunmamaktadır. Lütfen daha sonra tekrar kontrol edin.";
+    if (language === "en")
+      return "No services available at the moment. Please check back later.";
     return "Δεν υπάρχουν διαθέσιμες υπηρεσίες αυτή τη στιγμή. Παρακαλώ ελέγξτε αργότερα.";
   };
 
@@ -46,8 +50,10 @@ export default function Shop() {
   };
 
   const getConsultationText = () => {
-    if (language === "tr") return "Vedat Delek ile doğrudan iletişim kurmak ve özel danışmanlık almak için lütfen iletişim bilgilerimizi ziyaret edin.";
-    if (language === "en") return "To contact Vedat Delek directly and receive personalized consultation, please visit our contact information.";
+    if (language === "tr")
+      return "Vedat Delek ile doğrudan iletişim kurmak ve özel danışmanlık almak için lütfen iletişim bilgilerimizi ziyaret edin.";
+    if (language === "en")
+      return "To contact Vedat Delek directly and receive personalized consultation, please visit our contact information.";
     return "Για να επικοινωνήσετε απευθείας με τον Vedat Delek και να λάβετε προσωπική συμβουλευτική, επισκεφθείτε τις πληροφορίες επικοινωνίας μας.";
   };
 
@@ -64,7 +70,12 @@ export default function Shop() {
   };
 
   const isValidEtsyUrl = (url: string) => {
-    return url && (url.includes("etsy.com") || url.includes("https://") || url.includes("http://"));
+    return (
+      url &&
+      (url.includes("etsy.com") ||
+        url.includes("https://") ||
+        url.includes("http://"))
+    );
   };
 
   return (
@@ -75,9 +86,7 @@ export default function Shop() {
           <h1 className="text-hero mb-4 bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
             {getHeaderText()}
           </h1>
-          <p className="text-subtitle">
-            {getSubHeaderText()}
-          </p>
+          <p className="text-subtitle">{getSubHeaderText()}</p>
         </div>
 
         {/* Products Grid */}
@@ -87,8 +96,11 @@ export default function Shop() {
           </div>
         ) : products && products.length > 0 ? (
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {products.map((product) => (
-              <Card key={product.id} className="card-astro overflow-hidden hover:border-blue-400 dark:hover:border-blue-600 flex flex-col">
+            {products.map(product => (
+              <Card
+                key={product.id}
+                className="card-astro overflow-hidden hover:border-blue-400 dark:hover:border-blue-600 flex flex-col"
+              >
                 {/* Product Image Container */}
                 {product.imageUrl ? (
                   <div className="w-full h-64 overflow-hidden bg-slate-100 dark:bg-slate-800 flex items-center justify-center">
@@ -140,7 +152,11 @@ export default function Shop() {
                       </a>
                     ) : (
                       <Button disabled className="w-full opacity-50">
-                        {language === "tr" ? "Satış Linki Hazırlanıyor" : language === "en" ? "Purchase Link Coming Soon" : "Ο σύνδεσμος αγοράς έρχεται σύντομα"}
+                        {language === "tr"
+                          ? "Satış Linki Hazırlanıyor"
+                          : language === "en"
+                            ? "Purchase Link Coming Soon"
+                            : "Ο σύνδεσμος αγοράς έρχεται σύντομα"}
                       </Button>
                     )}
                   </div>
@@ -159,12 +175,8 @@ export default function Shop() {
 
         {/* Info Section */}
         <div className="mt-16 bg-gradient-to-r from-blue-600 to-purple-600 rounded-xl p-8 text-white text-center">
-          <h2 className="text-3xl font-bold mb-4">
-            {getConsultationTitle()}
-          </h2>
-          <p className="mb-6 text-lg opacity-90">
-            {getConsultationText()}
-          </p>
+          <h2 className="text-3xl font-bold mb-4">{getConsultationTitle()}</h2>
+          <p className="mb-6 text-lg opacity-90">{getConsultationText()}</p>
           <Link href="/contact" className="inline-block">
             <Button className="bg-white text-blue-600 hover:bg-slate-100 px-8 py-3 font-semibold rounded-lg">
               {getContactButtonText()}

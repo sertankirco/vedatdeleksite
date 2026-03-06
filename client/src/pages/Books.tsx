@@ -43,9 +43,9 @@ export default function Books() {
 
           {/* Book Image */}
           <div className="mb-12 flex justify-center">
-            <img 
-              src="https://files.manuscdn.com/user_upload_by_module/session_file/310519663294098536/WWrTHtjUDvrsNKwl.png" 
-              alt="KLİDİ KİTAP" 
+            <img
+              src="https://files.manuscdn.com/user_upload_by_module/session_file/310519663294098536/WWrTHtjUDvrsNKwl.png"
+              alt="KLİDİ KİTAP"
               className="w-full max-w-md rounded-lg shadow-lg object-cover"
             />
           </div>
@@ -61,7 +61,11 @@ export default function Books() {
           <div className="bg-gradient-to-r from-blue-600 to-purple-600 rounded-lg p-8 text-white text-center">
             <h2 className="text-2xl font-bold mb-4">{getContactText()}</h2>
             <p className="mb-6 text-lg opacity-90">
-              {language === "tr" ? "Kitap hakkında sorularınız varsa bize ulaşın." : language === "en" ? "If you have any questions about the book, please contact us." : "Εάν έχετε ερωτήσεις σχετικά με το βιβλίο, επικοινωνήστε μαζί μας."}
+              {language === "tr"
+                ? "Kitap hakkında sorularınız varsa bize ulaşın."
+                : language === "en"
+                  ? "If you have any questions about the book, please contact us."
+                  : "Εάν έχετε ερωτήσεις σχετικά με το βιβλίο, επικοινωνήστε μαζί μας."}
             </p>
             <Link href="/contact">
               <button className="bg-white text-blue-600 hover:bg-slate-100 font-bold py-3 px-8 rounded-lg transition-colors">

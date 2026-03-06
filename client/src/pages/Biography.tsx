@@ -98,7 +98,7 @@ Between 2015 & 2025, I have set a record by writing 18 books.`;
 Μεταξύ 2015 & 2025, έχω θέσει ένα ρεκόρ γράφοντας 18 βιβλία.`;
   };
 
-  const paragraphs = getBiographyText().split('\n\n');
+  const paragraphs = getBiographyText().split("\n\n");
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50 dark:from-slate-950 dark:to-slate-900 py-12 px-4 sm:px-6 lg:px-8">
@@ -119,7 +119,10 @@ Between 2015 & 2025, I have set a record by writing 18 books.`;
             <Sparkles className="w-6 h-6 text-blue-600 flex-shrink-0 mt-1" />
             <div className="w-full">
               {paragraphs.map((paragraph: string, index: number) => (
-                <p key={index} className="text-lg text-slate-700 dark:text-slate-300 leading-relaxed mb-4">
+                <p
+                  key={index}
+                  className="text-lg text-slate-700 dark:text-slate-300 leading-relaxed mb-4"
+                >
                   {paragraph}
                 </p>
               ))}
@@ -130,21 +133,39 @@ Between 2015 & 2025, I have set a record by writing 18 books.`;
         {/* Experience Highlight */}
         <div className="grid md:grid-cols-3 gap-6 mb-8">
           <div className="bg-white dark:bg-slate-800 rounded-lg shadow-md p-6 text-center">
-            <div className="text-4xl font-bold text-blue-600 dark:text-blue-400 mb-2">20+</div>
+            <div className="text-4xl font-bold text-blue-600 dark:text-blue-400 mb-2">
+              20+
+            </div>
             <p className="text-slate-600 dark:text-slate-400">
-              {language === "tr" ? "Yıllık Deneyim" : language === "en" ? "Years of Experience" : "Χρόνια Εμπειρίας"}
+              {language === "tr"
+                ? "Yıllık Deneyim"
+                : language === "en"
+                  ? "Years of Experience"
+                  : "Χρόνια Εμπειρίας"}
             </p>
           </div>
           <div className="bg-white dark:bg-slate-800 rounded-lg shadow-md p-6 text-center">
-            <div className="text-4xl font-bold text-purple-600 dark:text-purple-400 mb-2">18</div>
+            <div className="text-4xl font-bold text-purple-600 dark:text-purple-400 mb-2">
+              18
+            </div>
             <p className="text-slate-600 dark:text-slate-400">
-              {language === "tr" ? "Yayınlanmış Kitap" : language === "en" ? "Published Books" : "Δημοσιευμένα Βιβλία"}
+              {language === "tr"
+                ? "Yayınlanmış Kitap"
+                : language === "en"
+                  ? "Published Books"
+                  : "Δημοσιευμένα Βιβλία"}
             </p>
           </div>
           <div className="bg-white dark:bg-slate-800 rounded-lg shadow-md p-6 text-center">
-            <div className="text-4xl font-bold text-pink-600 dark:text-pink-400 mb-2">250+</div>
+            <div className="text-4xl font-bold text-pink-600 dark:text-pink-400 mb-2">
+              250+
+            </div>
             <p className="text-slate-600 dark:text-slate-400">
-              {language === "tr" ? "TV Programı Bölümü" : language === "en" ? "TV Program Episodes" : "Επεισόδια Τηλεοπτικού Προγράμματος"}
+              {language === "tr"
+                ? "TV Programı Bölümü"
+                : language === "en"
+                  ? "TV Program Episodes"
+                  : "Επεισόδια Τηλεοπτικού Προγράμματος"}
             </p>
           </div>
         </div>
@@ -153,36 +174,96 @@ Between 2015 & 2025, I have set a record by writing 18 books.`;
         <div className="bg-gradient-to-r from-blue-50 to-purple-50 dark:from-slate-800 dark:to-slate-700 rounded-lg shadow-lg p-8">
           <h2 className="text-2xl font-bold text-slate-900 dark:text-white mb-6 flex items-center gap-2">
             <Award className="w-6 h-6 text-blue-600" />
-            {language === "tr" ? "Başarılar ve Başarılar" : language === "en" ? "Achievements and Accomplishments" : "Επιτεύγματα και Κατακτήσεις"}
+            {language === "tr"
+              ? "Başarılar ve Başarılar"
+              : language === "en"
+                ? "Achievements and Accomplishments"
+                : "Επιτεύγματα και Κατακτήσεις"}
           </h2>
           <ul className="space-y-3 text-slate-700 dark:text-slate-300">
             <li className="flex items-start gap-3">
-              <span className="text-blue-600 dark:text-blue-400 font-bold">✓</span>
-              <span>{language === "tr" ? "YÖK Onaylı Astroloji Sertifikaları" : language === "en" ? "YÖK Approved Astrology Certificates" : "Πιστοποιητικά Αστρολογίας Εγκεκριμένα από YÖK"}</span>
+              <span className="text-blue-600 dark:text-blue-400 font-bold">
+                ✓
+              </span>
+              <span>
+                {language === "tr"
+                  ? "YÖK Onaylı Astroloji Sertifikaları"
+                  : language === "en"
+                    ? "YÖK Approved Astrology Certificates"
+                    : "Πιστοποιητικά Αστρολογίας Εγκεκριμένα από YÖK"}
+              </span>
             </li>
             <li className="flex items-start gap-3">
-              <span className="text-blue-600 dark:text-blue-400 font-bold">✓</span>
-              <span>{language === "tr" ? "18 Yayınlanmış Kitap (2015-2025)" : language === "en" ? "18 Published Books (2015-2025)" : "18 Δημοσιευμένα Βιβλία (2015-2025)"}</span>
+              <span className="text-blue-600 dark:text-blue-400 font-bold">
+                ✓
+              </span>
+              <span>
+                {language === "tr"
+                  ? "18 Yayınlanmış Kitap (2015-2025)"
+                  : language === "en"
+                    ? "18 Published Books (2015-2025)"
+                    : "18 Δημοσιευμένα Βιβλία (2015-2025)"}
+              </span>
             </li>
             <li className="flex items-start gap-3">
-              <span className="text-blue-600 dark:text-blue-400 font-bold">✓</span>
-              <span>{language === "tr" ? "Uluslararası İşitme Engelliler Federasyonu ile İşaret Dili Burç Yorumları Projesi" : language === "en" ? "Sign Language Zodiac Readings Project with International Federation of the Deaf" : "Έργο Ανάγνωσης Ζωδίων σε Νοηματική Γλώσσα με τη Διεθνή Ομοσπονδία Κωφών"}</span>
+              <span className="text-blue-600 dark:text-blue-400 font-bold">
+                ✓
+              </span>
+              <span>
+                {language === "tr"
+                  ? "Uluslararası İşitme Engelliler Federasyonu ile İşaret Dili Burç Yorumları Projesi"
+                  : language === "en"
+                    ? "Sign Language Zodiac Readings Project with International Federation of the Deaf"
+                    : "Έργο Ανάγνωσης Ζωδίων σε Νοηματική Γλώσσα με τη Διεθνή Ομοσπονδία Κωφών"}
+              </span>
             </li>
             <li className="flex items-start gap-3">
-              <span className="text-blue-600 dark:text-blue-400 font-bold">✓</span>
-              <span>{language === "tr" ? "Business Channel Türk TV'de 250+ Bölüm Sunuş" : language === "en" ? "250+ Episodes on Business Channel Turkish TV" : "250+ Επεισόδια στο Business Channel Turkish TV"}</span>
+              <span className="text-blue-600 dark:text-blue-400 font-bold">
+                ✓
+              </span>
+              <span>
+                {language === "tr"
+                  ? "Business Channel Türk TV'de 250+ Bölüm Sunuş"
+                  : language === "en"
+                    ? "250+ Episodes on Business Channel Turkish TV"
+                    : "250+ Επεισόδια στο Business Channel Turkish TV"}
+              </span>
             </li>
             <li className="flex items-start gap-3">
-              <span className="text-blue-600 dark:text-blue-400 font-bold">✓</span>
-              <span>{language === "tr" ? "Uluslararası Söyleşi ve Danışmanlık (Almanya, Hollanda, İsviçre, İngiltere)" : language === "en" ? "International Lectures and Consulting (Germany, Netherlands, Switzerland, UK)" : "Διεθνείς Διαλέξεις και Συμβουλές (Γερμανία, Κάτω Χώρες, Ελβετία, ΗΒ)"}</span>
+              <span className="text-blue-600 dark:text-blue-400 font-bold">
+                ✓
+              </span>
+              <span>
+                {language === "tr"
+                  ? "Uluslararası Söyleşi ve Danışmanlık (Almanya, Hollanda, İsviçre, İngiltere)"
+                  : language === "en"
+                    ? "International Lectures and Consulting (Germany, Netherlands, Switzerland, UK)"
+                    : "Διεθνείς Διαλέξεις και Συμβουλές (Γερμανία, Κάτω Χώρες, Ελβετία, ΗΒ)"}
+              </span>
             </li>
             <li className="flex items-start gap-3">
-              <span className="text-blue-600 dark:text-blue-400 font-bold">✓</span>
-              <span>{language === "tr" ? "Animasyon Çizgi Film Serileri ve Müzik Prodüksiyonu" : language === "en" ? "Animated Series and Music Production" : "Κινούμενες Σειρές και Μουσική Παραγωγή"}</span>
+              <span className="text-blue-600 dark:text-blue-400 font-bold">
+                ✓
+              </span>
+              <span>
+                {language === "tr"
+                  ? "Animasyon Çizgi Film Serileri ve Müzik Prodüksiyonu"
+                  : language === "en"
+                    ? "Animated Series and Music Production"
+                    : "Κινούμενες Σειρές και Μουσική Παραγωγή"}
+              </span>
             </li>
             <li className="flex items-start gap-3">
-              <span className="text-blue-600 dark:text-blue-400 font-bold">✓</span>
-              <span>{language === "tr" ? "Beyaz TV YouTube Kanalında Haftalık Program Sunuşu (2022-2025)" : language === "en" ? "Weekly Program on Beyaz TV YouTube Channel (2022-2025)" : "Εβδομαδιαίο Πρόγραμμα στο Κανάλι YouTube Beyaz TV (2022-2025)"}</span>
+              <span className="text-blue-600 dark:text-blue-400 font-bold">
+                ✓
+              </span>
+              <span>
+                {language === "tr"
+                  ? "Beyaz TV YouTube Kanalında Haftalık Program Sunuşu (2022-2025)"
+                  : language === "en"
+                    ? "Weekly Program on Beyaz TV YouTube Channel (2022-2025)"
+                    : "Εβδομαδιαίο Πρόγραμμα στο Κανάλι YouTube Beyaz TV (2022-2025)"}
+              </span>
             </li>
           </ul>
         </div>

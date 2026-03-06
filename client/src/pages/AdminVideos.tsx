@@ -48,7 +48,12 @@ export default function AdminVideos() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!formData.titleTr || !formData.titleEn || !formData.titleEl || !formData.youtubeUrl) {
+    if (
+      !formData.titleTr ||
+      !formData.titleEn ||
+      !formData.titleEl ||
+      !formData.youtubeUrl
+    ) {
       toast.error("Tüm dillerde başlık ve YouTube URL gerekli!");
       return;
     }
@@ -56,7 +61,9 @@ export default function AdminVideos() {
   };
 
   const getYoutubeId = (url: string) => {
-    const match = url.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/)([^&\n?#]+)/);
+    const match = url.match(
+      /(?:youtube\.com\/watch\?v=|youtu\.be\/)([^&\n?#]+)/
+    );
     return match ? match[1] : null;
   };
 
@@ -95,13 +102,17 @@ export default function AdminVideos() {
               <input
                 type="text"
                 value={formData.titleTr}
-                onChange={(e) => setFormData({ ...formData, titleTr: e.target.value })}
+                onChange={e =>
+                  setFormData({ ...formData, titleTr: e.target.value })
+                }
                 className="w-full px-4 py-2 border rounded-lg dark:bg-slate-800 dark:border-slate-600 mb-2"
                 placeholder="Başlık (Türkçe)"
               />
               <textarea
                 value={formData.descriptionTr}
-                onChange={(e) => setFormData({ ...formData, descriptionTr: e.target.value })}
+                onChange={e =>
+                  setFormData({ ...formData, descriptionTr: e.target.value })
+                }
                 className="w-full px-4 py-2 border rounded-lg dark:bg-slate-800 dark:border-slate-600 h-16"
                 placeholder="Açıklama (Türkçe)"
               />
@@ -113,13 +124,17 @@ export default function AdminVideos() {
               <input
                 type="text"
                 value={formData.titleEn}
-                onChange={(e) => setFormData({ ...formData, titleEn: e.target.value })}
+                onChange={e =>
+                  setFormData({ ...formData, titleEn: e.target.value })
+                }
                 className="w-full px-4 py-2 border rounded-lg dark:bg-slate-800 dark:border-slate-600 mb-2"
                 placeholder="Title (English)"
               />
               <textarea
                 value={formData.descriptionEn}
-                onChange={(e) => setFormData({ ...formData, descriptionEn: e.target.value })}
+                onChange={e =>
+                  setFormData({ ...formData, descriptionEn: e.target.value })
+                }
                 className="w-full px-4 py-2 border rounded-lg dark:bg-slate-800 dark:border-slate-600 h-16"
                 placeholder="Description (English)"
               />
@@ -131,13 +146,17 @@ export default function AdminVideos() {
               <input
                 type="text"
                 value={formData.titleEl}
-                onChange={(e) => setFormData({ ...formData, titleEl: e.target.value })}
+                onChange={e =>
+                  setFormData({ ...formData, titleEl: e.target.value })
+                }
                 className="w-full px-4 py-2 border rounded-lg dark:bg-slate-800 dark:border-slate-600 mb-2"
                 placeholder="Τίτλος (Ελληνικά)"
               />
               <textarea
                 value={formData.descriptionEl}
-                onChange={(e) => setFormData({ ...formData, descriptionEl: e.target.value })}
+                onChange={e =>
+                  setFormData({ ...formData, descriptionEl: e.target.value })
+                }
                 className="w-full px-4 py-2 border rounded-lg dark:bg-slate-800 dark:border-slate-600 h-16"
                 placeholder="Περιγραφή (Ελληνικά)"
               />
@@ -145,21 +164,37 @@ export default function AdminVideos() {
 
             {/* YouTube URL */}
             <div>
-              <label className="block text-sm font-medium mb-2">YouTube URL</label>
+              <label className="block text-sm font-medium mb-2">
+                YouTube URL
+              </label>
               <input
                 type="text"
                 value={formData.youtubeUrl}
-                onChange={(e) => setFormData({ ...formData, youtubeUrl: e.target.value })}
+                onChange={e =>
+                  setFormData({ ...formData, youtubeUrl: e.target.value })
+                }
                 className="w-full px-4 py-2 border rounded-lg dark:bg-slate-800 dark:border-slate-600"
                 placeholder="https://youtube.com/watch?v=..."
               />
             </div>
 
             <div className="flex gap-2">
-              <Button type="submit" className="btn-astro-primary" disabled={createMutation.isPending}>
-                {createMutation.isPending ? <Loader2 className="w-4 h-4 animate-spin" /> : "Ekle"}
+              <Button
+                type="submit"
+                className="btn-astro-primary"
+                disabled={createMutation.isPending}
+              >
+                {createMutation.isPending ? (
+                  <Loader2 className="w-4 h-4 animate-spin" />
+                ) : (
+                  "Ekle"
+                )}
               </Button>
-              <Button type="button" onClick={() => setIsCreating(false)} className="btn-astro-secondary">
+              <Button
+                type="button"
+                onClick={() => setIsCreating(false)}
+                className="btn-astro-secondary"
+              >
                 İptal
               </Button>
             </div>
@@ -174,10 +209,13 @@ export default function AdminVideos() {
             <Loader2 className="w-8 h-8 animate-spin text-blue-600" />
           </div>
         ) : videos && videos.length > 0 ? (
-          videos.map((video) => {
+          videos.map(video => {
             const youtubeId = getYoutubeId(video.youtubeUrl);
             return (
-              <Card key={video.id} className="p-4 bg-white dark:bg-slate-900 overflow-hidden">
+              <Card
+                key={video.id}
+                className="p-4 bg-white dark:bg-slate-900 overflow-hidden"
+              >
                 <div className="relative mb-4 bg-black rounded-lg h-40 flex items-center justify-center">
                   {youtubeId ? (
                     <img

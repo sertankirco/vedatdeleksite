@@ -1,4 +1,8 @@
 import { defineConfig } from "drizzle-kit";
+import * as dotenv from "dotenv";
+import { resolve } from "path";
+
+dotenv.config({ path: resolve(process.cwd(), ".env.local") });
 
 const connectionString = process.env.DATABASE_URL;
 if (!connectionString) {
@@ -8,7 +12,7 @@ if (!connectionString) {
 export default defineConfig({
   schema: "./drizzle/schema.ts",
   out: "./drizzle",
-  dialect: "mysql",
+  dialect: "sqlite",
   dbCredentials: {
     url: connectionString,
   },

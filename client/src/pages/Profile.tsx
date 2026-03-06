@@ -4,8 +4,6 @@ import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Link } from "wouter";
 import { User, Mail, Calendar, LogOut, Lock } from "lucide-react";
-import { getLoginUrl } from "@/const";
-
 export default function Profile() {
   const { user, isAuthenticated, logout } = useAuth();
   const { t } = useLanguage();
@@ -16,13 +14,16 @@ export default function Profile() {
         <Card className="p-8 max-w-md w-full text-center">
           <Lock className="w-16 h-16 mx-auto text-blue-600 mb-4" />
           <h2 className="text-2xl font-bold mb-4 text-slate-900 dark:text-white">
-            {t('admin.login')}
+            {t("admin.login")}
           </h2>
           <p className="text-slate-600 dark:text-slate-400 mb-6">
-            {t('admin.login.text')}
+            {t("admin.login.text")}
           </p>
-          <Button className="btn-astro-primary w-full" onClick={() => window.location.href = getLoginUrl()}>
-            {t('nav.login')}
+          <Button
+            className="btn-astro-primary w-full"
+            onClick={() => (window.location.href = "/login")}
+          >
+            {t("nav.login")}
           </Button>
         </Card>
       </div>
@@ -35,9 +36,9 @@ export default function Profile() {
         {/* Header */}
         <div className="text-center mb-12">
           <h1 className="text-hero mb-4 bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-            {t('profile.title')}
+            {t("profile.title")}
           </h1>
-          <p className="text-subtitle">{t('profile.subtitle')}</p>
+          <p className="text-subtitle">{t("profile.subtitle")}</p>
         </div>
 
         {/* Vedat Delek Info Card */}
@@ -45,13 +46,18 @@ export default function Profile() {
           <div className="grid md:grid-cols-2 gap-8 items-center">
             <div>
               <h2 className="text-3xl font-bold text-slate-900 dark:text-white mb-4">
-                {t('profile.about')}
+                {t("profile.about")}
               </h2>
               <p className="text-slate-600 dark:text-slate-400 mb-4">
-                Ünlü astrolog ve yaşam danışmanı Vedat Delek, 20 yılı aşkın deneyimi ile binlerce kişinin yaşamını değiştirmiştir. Astroloji, numeroloji ve karmik rehberlik konularında uzman olan Vedat Delek, modern teknoloji ile geleneksel bilgeliği birleştirerek platformu oluşturmuştur.
+                Ünlü astrolog ve yaşam danışmanı Vedat Delek, 20 yılı aşkın
+                deneyimi ile binlerce kişinin yaşamını değiştirmiştir.
+                Astroloji, numeroloji ve karmik rehberlik konularında uzman olan
+                Vedat Delek, modern teknoloji ile geleneksel bilgeliği
+                birleştirerek platformu oluşturmuştur.
               </p>
               <p className="text-slate-600 dark:text-slate-400">
-                AI destekli danışmanlığı ile artık herkes kişisel astroloji hizmetlerine erişebilir.
+                AI destekli danışmanlığı ile artık herkes kişisel astroloji
+                hizmetlerine erişebilir.
               </p>
             </div>
             <div className="flex justify-center">
@@ -75,10 +81,10 @@ export default function Profile() {
             </div>
             <div>
               <h2 className="text-3xl font-bold text-slate-900 dark:text-white">
-                {user.name || 'Kullanıcı'}
+                {user.name || "Kullanıcı"}
               </h2>
               <p className="text-slate-600 dark:text-slate-400">
-                {user.role === 'admin' ? '👑 Yönetici' : 'Kullanıcı'}
+                {user.role === "admin" ? "👑 Yönetici" : "Kullanıcı"}
               </p>
             </div>
           </div>
@@ -89,9 +95,11 @@ export default function Profile() {
             <div className="flex items-center gap-4 p-4 bg-slate-50 dark:bg-slate-800 rounded-lg">
               <Mail className="w-6 h-6 text-blue-600" />
               <div>
-                <p className="text-sm text-slate-600 dark:text-slate-400">E-posta</p>
+                <p className="text-sm text-slate-600 dark:text-slate-400">
+                  E-posta
+                </p>
                 <p className="text-lg font-semibold text-slate-900 dark:text-white">
-                  {user.email || 'Belirtilmemiş'}
+                  {user.email || "Belirtilmemiş"}
                 </p>
               </div>
             </div>
@@ -100,12 +108,14 @@ export default function Profile() {
             <div className="flex items-center gap-4 p-4 bg-slate-50 dark:bg-slate-800 rounded-lg">
               <Calendar className="w-6 h-6 text-purple-600" />
               <div>
-                <p className="text-sm text-slate-600 dark:text-slate-400">Üye Olunduğu Tarih</p>
+                <p className="text-sm text-slate-600 dark:text-slate-400">
+                  Üye Olunduğu Tarih
+                </p>
                 <p className="text-lg font-semibold text-slate-900 dark:text-white">
-                  {new Date(user.createdAt).toLocaleDateString('tr-TR', {
-                    year: 'numeric',
-                    month: 'long',
-                    day: 'numeric',
+                  {new Date(user.createdAt).toLocaleDateString("tr-TR", {
+                    year: "numeric",
+                    month: "long",
+                    day: "numeric",
                   })}
                 </p>
               </div>
@@ -115,9 +125,11 @@ export default function Profile() {
             <div className="flex items-center gap-4 p-4 bg-slate-50 dark:bg-slate-800 rounded-lg">
               <Lock className="w-6 h-6 text-green-600" />
               <div>
-                <p className="text-sm text-slate-600 dark:text-slate-400">Giriş Yöntemi</p>
+                <p className="text-sm text-slate-600 dark:text-slate-400">
+                  Giriş Yöntemi
+                </p>
                 <p className="text-lg font-semibold text-slate-900 dark:text-white">
-                  {user.loginMethod || 'Manus OAuth'}
+                  {user.loginMethod || "Manus OAuth"}
                 </p>
               </div>
             </div>
@@ -160,10 +172,7 @@ export default function Profile() {
               Ana Sayfaya Dön
             </Button>
           </Link>
-          <Button
-            onClick={() => logout()}
-            className="btn-astro-primary flex-1"
-          >
+          <Button onClick={() => logout()} className="btn-astro-primary flex-1">
             <LogOut className="w-4 h-4 mr-2" />
             Çıkış Yap
           </Button>

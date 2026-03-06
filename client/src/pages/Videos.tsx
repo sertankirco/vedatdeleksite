@@ -5,7 +5,9 @@ import { Card } from "@/components/ui/card";
 import { Play, Loader2 } from "lucide-react";
 
 const getYoutubeEmbedUrl = (url: string) => {
-  const videoId = url.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/)([^&\n?#]+)/)?.[1];
+  const videoId = url.match(
+    /(?:youtube\.com\/watch\?v=|youtu\.be\/)([^&\n?#]+)/
+  )?.[1];
   return videoId ? `https://www.youtube.com/embed/${videoId}` : null;
 };
 
@@ -16,19 +18,22 @@ export default function Videos() {
   const { data: videos, isLoading } = trpc.videos.list.useQuery();
 
   const getTitle = (video: any) => {
-    if (language === 'tr') return video.titleTr;
-    if (language === 'en') return video.titleEn;
+    if (language === "tr") return video.titleTr;
+    if (language === "en") return video.titleEn;
     return video.titleEl;
   };
 
   const getDescription = (video: any) => {
-    if (language === 'tr') return video.descriptionTr;
-    if (language === 'en') return video.descriptionEn;
+    if (language === "tr") return video.descriptionTr;
+    if (language === "en") return video.descriptionEn;
     return video.descriptionEl;
   };
 
   const firstVideo = videos?.[0];
-  const embedUrl = firstVideo && selectedVideo === null ? getYoutubeEmbedUrl(firstVideo.youtubeUrl) : null;
+  const embedUrl =
+    firstVideo && selectedVideo === null
+      ? getYoutubeEmbedUrl(firstVideo.youtubeUrl)
+      : null;
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50 dark:from-slate-950 dark:to-slate-900 py-12 px-4 sm:px-6 lg:px-8">
@@ -36,9 +41,9 @@ export default function Videos() {
         {/* Header */}
         <div className="text-center mb-12">
           <h1 className="text-hero mb-4 bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-            {t('videos.title')}
+            {t("videos.title")}
           </h1>
-          <p className="text-subtitle">{t('videos.subtitle')}</p>
+          <p className="text-subtitle">{t("videos.subtitle")}</p>
         </div>
 
         {isLoading ? (
@@ -118,14 +123,14 @@ export default function Videos() {
                 Tüm Videolar
               </h3>
               <div className="space-y-3">
-                {videos?.map((video) => (
+                {videos?.map(video => (
                   <Card
                     key={video.id}
                     onClick={() => setSelectedVideo(video.youtubeUrl)}
                     className={`p-3 cursor-pointer transition-all hover:shadow-lg ${
                       selectedVideo === video.youtubeUrl
-                        ? 'bg-blue-100 dark:bg-blue-900 border-blue-400'
-                        : ''
+                        ? "bg-blue-100 dark:bg-blue-900 border-blue-400"
+                        : ""
                     }`}
                   >
                     <div className="relative mb-2">
@@ -145,7 +150,7 @@ export default function Videos() {
           <div className="text-center py-12">
             <Play className="w-16 h-16 mx-auto text-slate-300 dark:text-slate-600 mb-4" />
             <p className="text-slate-600 dark:text-slate-400 text-lg">
-              {t('videos.empty')}
+              {t("videos.empty")}
             </p>
           </div>
         )}

@@ -54,9 +54,7 @@ export default function Contact() {
           <h1 className="text-hero mb-4 bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
             {t("contact.title")}
           </h1>
-          <p className="text-subtitle mb-4">
-            {t("contact.subtitle")}
-          </p>
+          <p className="text-subtitle mb-4">{t("contact.subtitle")}</p>
           <p className="text-lg text-slate-600 dark:text-slate-400 max-w-2xl mx-auto">
             {t("contact.description")}
           </p>
@@ -104,7 +102,7 @@ export default function Contact() {
             {t("contact.follow")}
           </h2>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            {socialLinks.map((social) => {
+            {socialLinks.map(social => {
               const Icon = social.icon;
               return (
                 <a
@@ -114,8 +112,12 @@ export default function Contact() {
                   rel="noopener noreferrer"
                   className={`flex flex-col items-center gap-3 p-4 rounded-lg transition-all ${social.bgColor} group`}
                 >
-                  <Icon className={`w-8 h-8 text-white group-hover:scale-110 transition-transform ${social.color}`} />
-                  <span className="text-sm font-medium text-center">{social.name}</span>
+                  <Icon
+                    className={`w-8 h-8 text-white group-hover:scale-110 transition-transform ${social.color}`}
+                  />
+                  <span className="text-sm font-medium text-center">
+                    {social.name}
+                  </span>
                 </a>
               );
             })}
@@ -125,37 +127,71 @@ export default function Contact() {
         {/* Additional Info */}
         <div className="mt-12 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-xl p-8">
           <h3 className="text-xl font-bold mb-4 text-slate-900 dark:text-white">
-            {language === "tr" ? "Danışmanlık Hizmetleri" : language === "en" ? "Consultation Services" : "Υπηρεσίες Συμβουλευτικής"}
+            {language === "tr"
+              ? "Danışmanlık Hizmetleri"
+              : language === "en"
+                ? "Consultation Services"
+                : "Υπηρεσίες Συμβουλευτικής"}
           </h3>
           <ul className="space-y-3 text-slate-700 dark:text-slate-300">
             <li className="flex items-start gap-3">
-              <span className="text-blue-600 dark:text-blue-400 font-bold">•</span>
+              <span className="text-blue-600 dark:text-blue-400 font-bold">
+                •
+              </span>
               <span>
-                {language === "tr" ? "Doğum Haritası Analizi" : language === "en" ? "Birth Chart Analysis" : "Ανάλυση Αστρικής Χάρτας"}
+                {language === "tr"
+                  ? "Doğum Haritası Analizi"
+                  : language === "en"
+                    ? "Birth Chart Analysis"
+                    : "Ανάλυση Αστρικής Χάρτας"}
               </span>
             </li>
             <li className="flex items-start gap-3">
-              <span className="text-blue-600 dark:text-blue-400 font-bold">•</span>
+              <span className="text-blue-600 dark:text-blue-400 font-bold">
+                •
+              </span>
               <span>
-                {language === "tr" ? "Karmik Rehberlik" : language === "en" ? "Karmic Guidance" : "Κάρμικη Καθοδήγηση"}
+                {language === "tr"
+                  ? "Karmik Rehberlik"
+                  : language === "en"
+                    ? "Karmic Guidance"
+                    : "Κάρμικη Καθοδήγηση"}
               </span>
             </li>
             <li className="flex items-start gap-3">
-              <span className="text-blue-600 dark:text-blue-400 font-bold">•</span>
+              <span className="text-blue-600 dark:text-blue-400 font-bold">
+                •
+              </span>
               <span>
-                {language === "tr" ? "Kişisel Astroloji Danışmanlığı" : language === "en" ? "Personal Astrology Consultation" : "Προσωπική Συμβουλευτική Αστρολογίας"}
+                {language === "tr"
+                  ? "Kişisel Astroloji Danışmanlığı"
+                  : language === "en"
+                    ? "Personal Astrology Consultation"
+                    : "Προσωπική Συμβουλευτική Αστρολογίας"}
               </span>
             </li>
             <li className="flex items-start gap-3">
-              <span className="text-blue-600 dark:text-blue-400 font-bold">•</span>
+              <span className="text-blue-600 dark:text-blue-400 font-bold">
+                •
+              </span>
               <span>
-                {language === "tr" ? "Uyumluluk Analizi" : language === "en" ? "Compatibility Analysis" : "Ανάλυση Συμβατότητας"}
+                {language === "tr"
+                  ? "Uyumluluk Analizi"
+                  : language === "en"
+                    ? "Compatibility Analysis"
+                    : "Ανάλυση Συμβατότητας"}
               </span>
             </li>
             <li className="flex items-start gap-3">
-              <span className="text-blue-600 dark:text-blue-400 font-bold">•</span>
+              <span className="text-blue-600 dark:text-blue-400 font-bold">
+                •
+              </span>
               <span>
-                {language === "tr" ? "Kariyer ve Finans Rehberliği" : language === "en" ? "Career and Finance Guidance" : "Καθοδήγηση Καριέρας και Χρηματοοικονομικών"}
+                {language === "tr"
+                  ? "Kariyer ve Finans Rehberliği"
+                  : language === "en"
+                    ? "Career and Finance Guidance"
+                    : "Καθοδήγηση Καριέρας και Χρηματοοικονομικών"}
               </span>
             </li>
           </ul>

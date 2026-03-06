@@ -20,46 +20,50 @@ export const videosRouter = router({
       const video = await getVideoById(input.id);
       if (!video) {
         throw new TRPCError({
-          code: 'NOT_FOUND',
-          message: 'Video not found',
+          code: "NOT_FOUND",
+          message: "Video not found",
         });
       }
       return video;
     }),
 
   create: protectedProcedure
-    .input(z.object({
-      titleEl: z.string().min(1),
-      titleEn: z.string().min(1),
-      titleTr: z.string().min(1),
-      youtubeUrl: z.string().url(),
-      descriptionEl: z.string().optional(),
-      descriptionEn: z.string().optional(),
-      descriptionTr: z.string().optional(),
-    }))
+    .input(
+      z.object({
+        titleEl: z.string().min(1),
+        titleEn: z.string().min(1),
+        titleTr: z.string().min(1),
+        youtubeUrl: z.string().url(),
+        descriptionEl: z.string().optional(),
+        descriptionEn: z.string().optional(),
+        descriptionTr: z.string().optional(),
+      })
+    )
     .mutation(async ({ ctx, input }) => {
-      if (ctx.user?.role !== 'admin') {
-        throw new TRPCError({ code: 'FORBIDDEN' });
+      if (ctx.user?.role !== "admin") {
+        throw new TRPCError({ code: "FORBIDDEN" });
       }
       return createVideo(input);
     }),
 
   update: protectedProcedure
-    .input(z.object({
-      id: z.number(),
-      data: z.object({
-        titleEl: z.string().optional(),
-        titleEn: z.string().optional(),
-        titleTr: z.string().optional(),
-        youtubeUrl: z.string().url().optional(),
-        descriptionEl: z.string().optional(),
-        descriptionEn: z.string().optional(),
-        descriptionTr: z.string().optional(),
-      }),
-    }))
+    .input(
+      z.object({
+        id: z.number(),
+        data: z.object({
+          titleEl: z.string().optional(),
+          titleEn: z.string().optional(),
+          titleTr: z.string().optional(),
+          youtubeUrl: z.string().url().optional(),
+          descriptionEl: z.string().optional(),
+          descriptionEn: z.string().optional(),
+          descriptionTr: z.string().optional(),
+        }),
+      })
+    )
     .mutation(async ({ ctx, input }) => {
-      if (ctx.user?.role !== 'admin') {
-        throw new TRPCError({ code: 'FORBIDDEN' });
+      if (ctx.user?.role !== "admin") {
+        throw new TRPCError({ code: "FORBIDDEN" });
       }
       return updateVideo(input.id, input.data);
     }),
@@ -67,8 +71,8 @@ export const videosRouter = router({
   delete: protectedProcedure
     .input(z.object({ id: z.number() }))
     .mutation(async ({ ctx, input }) => {
-      if (ctx.user?.role !== 'admin') {
-        throw new TRPCError({ code: 'FORBIDDEN' });
+      if (ctx.user?.role !== "admin") {
+        throw new TRPCError({ code: "FORBIDDEN" });
       }
       return deleteVideo(input.id);
     }),

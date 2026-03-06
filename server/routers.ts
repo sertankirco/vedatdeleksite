@@ -4,6 +4,7 @@ import { systemRouter } from "./_core/systemRouter";
 import { publicProcedure, router, protectedProcedure } from "./_core/trpc";
 import { z } from "zod";
 import { TRPCError } from "@trpc/server";
+import { authRouter } from "./routers/auth";
 import { horoscopeRouter } from "./routers/horoscope";
 import { chatRouter } from "./routers/chat";
 import { productsRouter } from "./routers/products";
@@ -12,18 +13,9 @@ import { videosRouter } from "./routers/videos";
 import { productsFetchRouter } from "./routers/productsFetch";
 
 export const appRouter = router({
-    // if you need to use socket.io, read and register route in server/_core/index.ts, all api should start with '/api/' so that the gateway can route correctly
+  // if you need to use socket.io, read and register route in server/_core/index.ts, all api should start with '/api/' so that the gateway can route correctly
   system: systemRouter,
-  auth: router({
-    me: publicProcedure.query(opts => opts.ctx.user),
-    logout: publicProcedure.mutation(({ ctx }) => {
-      const cookieOptions = getSessionCookieOptions(ctx.req);
-      ctx.res.clearCookie(COOKIE_NAME, { ...cookieOptions, maxAge: -1 });
-      return {
-        success: true,
-      } as const;
-    }),
-  }),
+  auth: authRouter,
 
   horoscope: horoscopeRouter,
   chat: chatRouter,

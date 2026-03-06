@@ -94,20 +94,26 @@ export default function AdminBlog() {
               <input
                 type="text"
                 value={formData.titleTr}
-                onChange={(e) => setFormData({ ...formData, titleTr: e.target.value })}
+                onChange={e =>
+                  setFormData({ ...formData, titleTr: e.target.value })
+                }
                 className="w-full px-4 py-2 border rounded-lg dark:bg-slate-800 dark:border-slate-600 mb-2"
                 placeholder="Başlık (Türkçe)"
               />
               <input
                 type="text"
                 value={formData.excerptTr}
-                onChange={(e) => setFormData({ ...formData, excerptTr: e.target.value })}
+                onChange={e =>
+                  setFormData({ ...formData, excerptTr: e.target.value })
+                }
                 className="w-full px-4 py-2 border rounded-lg dark:bg-slate-800 dark:border-slate-600 mb-2"
                 placeholder="Özet (Türkçe)"
               />
               <textarea
                 value={formData.contentTr}
-                onChange={(e) => setFormData({ ...formData, contentTr: e.target.value })}
+                onChange={e =>
+                  setFormData({ ...formData, contentTr: e.target.value })
+                }
                 className="w-full px-4 py-2 border rounded-lg dark:bg-slate-800 dark:border-slate-600 h-24"
                 placeholder="İçerik (Türkçe)"
               />
@@ -119,20 +125,26 @@ export default function AdminBlog() {
               <input
                 type="text"
                 value={formData.titleEn}
-                onChange={(e) => setFormData({ ...formData, titleEn: e.target.value })}
+                onChange={e =>
+                  setFormData({ ...formData, titleEn: e.target.value })
+                }
                 className="w-full px-4 py-2 border rounded-lg dark:bg-slate-800 dark:border-slate-600 mb-2"
                 placeholder="Title (English)"
               />
               <input
                 type="text"
                 value={formData.excerptEn}
-                onChange={(e) => setFormData({ ...formData, excerptEn: e.target.value })}
+                onChange={e =>
+                  setFormData({ ...formData, excerptEn: e.target.value })
+                }
                 className="w-full px-4 py-2 border rounded-lg dark:bg-slate-800 dark:border-slate-600 mb-2"
                 placeholder="Excerpt (English)"
               />
               <textarea
                 value={formData.contentEn}
-                onChange={(e) => setFormData({ ...formData, contentEn: e.target.value })}
+                onChange={e =>
+                  setFormData({ ...formData, contentEn: e.target.value })
+                }
                 className="w-full px-4 py-2 border rounded-lg dark:bg-slate-800 dark:border-slate-600 h-24"
                 placeholder="Content (English)"
               />
@@ -144,30 +156,48 @@ export default function AdminBlog() {
               <input
                 type="text"
                 value={formData.titleEl}
-                onChange={(e) => setFormData({ ...formData, titleEl: e.target.value })}
+                onChange={e =>
+                  setFormData({ ...formData, titleEl: e.target.value })
+                }
                 className="w-full px-4 py-2 border rounded-lg dark:bg-slate-800 dark:border-slate-600 mb-2"
                 placeholder="Τίτλος (Ελληνικά)"
               />
               <input
                 type="text"
                 value={formData.excerptEl}
-                onChange={(e) => setFormData({ ...formData, excerptEl: e.target.value })}
+                onChange={e =>
+                  setFormData({ ...formData, excerptEl: e.target.value })
+                }
                 className="w-full px-4 py-2 border rounded-lg dark:bg-slate-800 dark:border-slate-600 mb-2"
                 placeholder="Περίληψη (Ελληνικά)"
               />
               <textarea
                 value={formData.contentEl}
-                onChange={(e) => setFormData({ ...formData, contentEl: e.target.value })}
+                onChange={e =>
+                  setFormData({ ...formData, contentEl: e.target.value })
+                }
                 className="w-full px-4 py-2 border rounded-lg dark:bg-slate-800 dark:border-slate-600 h-24"
                 placeholder="Περιεχόμενο (Ελληνικά)"
               />
             </div>
 
             <div className="flex gap-2">
-              <Button type="submit" className="btn-astro-primary" disabled={createMutation.isPending}>
-                {createMutation.isPending ? <Loader2 className="w-4 h-4 animate-spin" /> : "Yayınla"}
+              <Button
+                type="submit"
+                className="btn-astro-primary"
+                disabled={createMutation.isPending}
+              >
+                {createMutation.isPending ? (
+                  <Loader2 className="w-4 h-4 animate-spin" />
+                ) : (
+                  "Yayınla"
+                )}
               </Button>
-              <Button type="button" onClick={() => setIsCreating(false)} className="btn-astro-secondary">
+              <Button
+                type="button"
+                onClick={() => setIsCreating(false)}
+                className="btn-astro-secondary"
+              >
                 İptal
               </Button>
             </div>
@@ -182,14 +212,16 @@ export default function AdminBlog() {
             <Loader2 className="w-8 h-8 animate-spin text-blue-600" />
           </div>
         ) : blogs && blogs.length > 0 ? (
-          blogs.map((blog) => (
+          blogs.map(blog => (
             <Card key={blog.id} className="p-4 bg-white dark:bg-slate-900">
               <div className="flex justify-between items-start">
                 <div className="flex-1">
                   <h3 className="font-bold text-lg">{getTitle(blog)}</h3>
-                  <p className="text-sm text-slate-600 dark:text-slate-400 mt-1">{getExcerpt(blog)}</p>
+                  <p className="text-sm text-slate-600 dark:text-slate-400 mt-1">
+                    {getExcerpt(blog)}
+                  </p>
                   <p className="text-xs text-slate-500 mt-2">
-                    {new Date(blog.createdAt).toLocaleDateString('tr-TR')}
+                    {new Date(blog.createdAt).toLocaleDateString("tr-TR")}
                   </p>
                 </div>
                 <div className="flex gap-2">

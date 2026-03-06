@@ -1,8 +1,8 @@
 {
   "version": "5",
   "dialect": "mysql",
-  "id": "c59e3a0f-8f88-4c0a-9f29-748006616f69",
-  "prevId": "b11664b3-045e-4788-bea5-082df182ef6c",
+  "id": "057345ad-4b86-4cd8-8718-4da1968fceef",
+  "prevId": "c59e3a0f-8f88-4c0a-9f29-748006616f69",
   "tables": {
     "blog_posts": {
       "name": "blog_posts",
@@ -442,7 +442,7 @@
           "name": "openId",
           "type": "varchar(64)",
           "primaryKey": false,
-          "notNull": true,
+          "notNull": false,
           "autoincrement": false
         },
         "name": {
@@ -459,12 +459,20 @@
           "notNull": false,
           "autoincrement": false
         },
+        "password": {
+          "name": "password",
+          "type": "varchar(128)",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
         "loginMethod": {
           "name": "loginMethod",
           "type": "varchar(64)",
           "primaryKey": false,
           "notNull": false,
-          "autoincrement": false
+          "autoincrement": false,
+          "default": "'local'"
         },
         "role": {
           "name": "role",
@@ -512,6 +520,10 @@
         "users_openId_unique": {
           "name": "users_openId_unique",
           "columns": ["openId"]
+        },
+        "users_email_unique": {
+          "name": "users_email_unique",
+          "columns": ["email"]
         }
       },
       "checkConstraint": {}

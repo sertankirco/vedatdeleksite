@@ -1,15 +1,30 @@
 import { eq, desc, and } from "drizzle-orm";
-import { drizzle } from "drizzle-orm/mysql2";
-import { InsertUser, users, zodiacSigns, horoscopes, products, blogPosts, videos, chatMessages, userPreferences } from "../drizzle/schema";
-import { ENV } from './_core/env';
+import { drizzle } from "drizzle-orm/better-sqlite3";
+import Database from "better-sqlite3";
+import {
+  InsertUser,
+  users,
+  zodiacSigns,
+  horoscopes,
+  products,
+  blogPosts,
+  videos,
+  chatMessages,
+  userPreferences,
+} from "../drizzle/schema";
+import { ENV } from "./_core/env";
 
 let _db: ReturnType<typeof drizzle> | null = null;
+let _sqlite: Database.Database | null = null;
 
 // Lazily create the drizzle instance so local tooling can run without a DB.
 export async function getDb() {
-  if (!_db && process.env.DATABASE_URL) {
+  if (!_db) {
     try {
-      _db = drizzle(process.env.DATABASE_URL);
+      if (!_sqlite) {
+        _sqlite = new Database("sqlite.db");
+      }
+      _db = drizzle(_sqlite);
     } catch (error) {
       console.warn("[Database] Failed to connect:", error);
       _db = null;
@@ -19,8 +34,9 @@ export async function getDb() {
 }
 
 export async function upsertUser(user: InsertUser): Promise<void> {
-  if (!user.openId) {
-    throw new Error("User openId is required for upsert");
+  // If no openId is provided, we can fallback to email for local auth
+  if (!user.openId && !user.email) {
+    throw new Error("User openId or email is required for upsert");
   }
 
   const db = await getDb();
@@ -32,10 +48,11 @@ export async function upsertUser(user: InsertUser): Promise<void> {
   try {
     const values: InsertUser = {
       openId: user.openId,
+      email: user.email,
     };
     const updateSet: Record<string, unknown> = {};
 
-    const textFields = ["name", "email", "loginMethod"] as const;
+    const textFields = ["name", "email", "password", "loginMethod"] as const;
     type TextField = (typeof textFields)[number];
 
     const assignNullable = (field: TextField) => {
@@ -56,30 +73,37 @@ export async function upsertUser(user: InsertUser): Promise<void> {
       values.role = user.role;
       updateSet.role = user.role;
     } else if (user.openId === ENV.ownerOpenId) {
-      values.role = 'admin';
-      updateSet.role = 'admin';
+      values.role = "admin";
+      updateSet.role = "admin";
     } else {
       // First user becomes admin
       try {
-        const existingUsers = await db.select({ id: users.id }).from(users).limit(1);
+        const existingUsers = await db
+          .select({ id: users.id })
+          .from(users)
+          .limit(1);
         if (existingUsers.length === 0) {
-          values.role = 'admin';
-          updateSet.role = 'admin';
+          values.role = "admin";
+          updateSet.role = "admin";
         }
       } catch (err) {
-        console.warn("[Database] Could not verify user count, defaulting to user role", err);
+        console.warn(
+          "[Database] Could not verify user count, defaulting to user role",
+          err
+        );
       }
     }
 
     if (!values.lastSignedIn) {
-      values.lastSignedIn = new Date();
+      values.lastSignedIn = new Date().toISOString();
     }
 
     if (Object.keys(updateSet).length === 0) {
-      updateSet.lastSignedIn = new Date();
+      updateSet.lastSignedIn = new Date().toISOString();
     }
 
-    await db.insert(users).values(values).onDuplicateKeyUpdate({
+    await db.insert(users).values(values).onConflictDoUpdate({
+      target: users.id,
       set: updateSet,
     });
   } catch (error) {
@@ -95,7 +119,27 @@ export async function getUserByOpenId(openId: string) {
     return undefined;
   }
 
-  const result = await db.select().from(users).where(eq(users.openId, openId)).limit(1);
+  const result = await db
+    .select()
+    .from(users)
+    .where(eq(users.openId, openId))
+    .limit(1);
+
+  return result.length > 0 ? result[0] : undefined;
+}
+
+export async function getUserByEmail(email: string) {
+  const db = await getDb();
+  if (!db) {
+    console.warn("[Database] Cannot get user: database not available");
+    return undefined;
+  }
+
+  const result = await db
+    .select()
+    .from(users)
+    .where(eq(users.email, email))
+    .limit(1);
 
   return result.length > 0 ? result[0] : undefined;
 }
@@ -110,7 +154,11 @@ export async function getAllZodiacSigns() {
 export async function getZodiacSignById(id: number) {
   const db = await getDb();
   if (!db) return undefined;
-  const result = await db.select().from(zodiacSigns).where(eq(zodiacSigns.id, id)).limit(1);
+  const result = await db
+    .select()
+    .from(zodiacSigns)
+    .where(eq(zodiacSigns.id, id))
+    .limit(1);
   return result[0];
 }
 
@@ -118,22 +166,29 @@ export async function getZodiacSignById(id: number) {
 export async function getTodayHoroscopes() {
   const db = await getDb();
   if (!db) return [];
-  const today = new Date().toISOString().split('T')[0];
+  const today = new Date().toISOString().split("T")[0];
   return db.select().from(horoscopes).where(eq(horoscopes.date, today));
 }
 
-export async function getHoroscopeByZodiacAndDate(zodiacSignId: number, date: string) {
+export async function getHoroscopeByZodiacAndDate(
+  zodiacSignId: number,
+  date: string
+) {
   const db = await getDb();
   if (!db) return undefined;
-  const result = await db.select().from(horoscopes)
-    .where(and(eq(horoscopes.zodiacSignId, zodiacSignId), eq(horoscopes.date, date)))
+  const result = await db
+    .select()
+    .from(horoscopes)
+    .where(
+      and(eq(horoscopes.zodiacSignId, zodiacSignId), eq(horoscopes.date, date))
+    )
     .limit(1);
   return result[0];
 }
 
 export async function createHoroscope(data: typeof horoscopes.$inferInsert) {
   const db = await getDb();
-  if (!db) throw new Error('Database not available');
+  if (!db) throw new Error("Database not available");
   const result = await db.insert(horoscopes).values(data);
   return result;
 }
@@ -148,25 +203,32 @@ export async function getAllProducts() {
 export async function getProductById(id: number) {
   const db = await getDb();
   if (!db) return undefined;
-  const result = await db.select().from(products).where(eq(products.id, id)).limit(1);
+  const result = await db
+    .select()
+    .from(products)
+    .where(eq(products.id, id))
+    .limit(1);
   return result[0];
 }
 
 export async function createProduct(data: typeof products.$inferInsert) {
   const db = await getDb();
-  if (!db) throw new Error('Database not available');
+  if (!db) throw new Error("Database not available");
   return db.insert(products).values(data);
 }
 
-export async function updateProduct(id: number, data: Partial<typeof products.$inferInsert>) {
+export async function updateProduct(
+  id: number,
+  data: Partial<typeof products.$inferInsert>
+) {
   const db = await getDb();
-  if (!db) throw new Error('Database not available');
+  if (!db) throw new Error("Database not available");
   return db.update(products).set(data).where(eq(products.id, id));
 }
 
 export async function deleteProduct(id: number) {
   const db = await getDb();
-  if (!db) throw new Error('Database not available');
+  if (!db) throw new Error("Database not available");
   return db.delete(products).where(eq(products.id, id));
 }
 
@@ -180,25 +242,32 @@ export async function getAllBlogPosts() {
 export async function getBlogPostById(id: number) {
   const db = await getDb();
   if (!db) return undefined;
-  const result = await db.select().from(blogPosts).where(eq(blogPosts.id, id)).limit(1);
+  const result = await db
+    .select()
+    .from(blogPosts)
+    .where(eq(blogPosts.id, id))
+    .limit(1);
   return result[0];
 }
 
 export async function createBlogPost(data: typeof blogPosts.$inferInsert) {
   const db = await getDb();
-  if (!db) throw new Error('Database not available');
+  if (!db) throw new Error("Database not available");
   return db.insert(blogPosts).values(data);
 }
 
-export async function updateBlogPost(id: number, data: Partial<typeof blogPosts.$inferInsert>) {
+export async function updateBlogPost(
+  id: number,
+  data: Partial<typeof blogPosts.$inferInsert>
+) {
   const db = await getDb();
-  if (!db) throw new Error('Database not available');
+  if (!db) throw new Error("Database not available");
   return db.update(blogPosts).set(data).where(eq(blogPosts.id, id));
 }
 
 export async function deleteBlogPost(id: number) {
   const db = await getDb();
-  if (!db) throw new Error('Database not available');
+  if (!db) throw new Error("Database not available");
   return db.delete(blogPosts).where(eq(blogPosts.id, id));
 }
 
@@ -212,25 +281,32 @@ export async function getAllVideos() {
 export async function getVideoById(id: number) {
   const db = await getDb();
   if (!db) return undefined;
-  const result = await db.select().from(videos).where(eq(videos.id, id)).limit(1);
+  const result = await db
+    .select()
+    .from(videos)
+    .where(eq(videos.id, id))
+    .limit(1);
   return result[0];
 }
 
 export async function createVideo(data: typeof videos.$inferInsert) {
   const db = await getDb();
-  if (!db) throw new Error('Database not available');
+  if (!db) throw new Error("Database not available");
   return db.insert(videos).values(data);
 }
 
-export async function updateVideo(id: number, data: Partial<typeof videos.$inferInsert>) {
+export async function updateVideo(
+  id: number,
+  data: Partial<typeof videos.$inferInsert>
+) {
   const db = await getDb();
-  if (!db) throw new Error('Database not available');
+  if (!db) throw new Error("Database not available");
   return db.update(videos).set(data).where(eq(videos.id, id));
 }
 
 export async function deleteVideo(id: number) {
   const db = await getDb();
-  if (!db) throw new Error('Database not available');
+  if (!db) throw new Error("Database not available");
   return db.delete(videos).where(eq(videos.id, id));
 }
 
@@ -238,15 +314,19 @@ export async function deleteVideo(id: number) {
 export async function getUserChatMessages(userId: number, limit: number = 50) {
   const db = await getDb();
   if (!db) return [];
-  return db.select().from(chatMessages)
+  return db
+    .select()
+    .from(chatMessages)
     .where(eq(chatMessages.userId, userId))
     .orderBy(desc(chatMessages.createdAt))
     .limit(limit);
 }
 
-export async function createChatMessage(data: typeof chatMessages.$inferInsert) {
+export async function createChatMessage(
+  data: typeof chatMessages.$inferInsert
+) {
   const db = await getDb();
-  if (!db) throw new Error('Database not available');
+  if (!db) throw new Error("Database not available");
   return db.insert(chatMessages).values(data);
 }
 
@@ -254,12 +334,22 @@ export async function createChatMessage(data: typeof chatMessages.$inferInsert) 
 export async function getUserPreferences(userId: number) {
   const db = await getDb();
   if (!db) return undefined;
-  const result = await db.select().from(userPreferences).where(eq(userPreferences.userId, userId)).limit(1);
+  const result = await db
+    .select()
+    .from(userPreferences)
+    .where(eq(userPreferences.userId, userId))
+    .limit(1);
   return result[0];
 }
 
-export async function updateUserPreferences(userId: number, data: Partial<typeof userPreferences.$inferInsert>) {
+export async function updateUserPreferences(
+  userId: number,
+  data: Partial<typeof userPreferences.$inferInsert>
+) {
   const db = await getDb();
-  if (!db) throw new Error('Database not available');
-  return db.update(userPreferences).set(data).where(eq(userPreferences.userId, userId));
+  if (!db) throw new Error("Database not available");
+  return db
+    .update(userPreferences)
+    .set(data)
+    .where(eq(userPreferences.userId, userId));
 }

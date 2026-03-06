@@ -6,36 +6,37 @@ import { Card } from "@/components/ui/card";
 import { RefreshCw, Sparkles, Loader2 } from "lucide-react";
 
 const ZODIAC_SIGNS = [
-  { id: 1, name: 'Koç', nameEn: 'Aries', icon: '♈' },
-  { id: 2, name: 'Boğa', nameEn: 'Taurus', icon: '♉' },
-  { id: 3, name: 'İkizler', nameEn: 'Gemini', icon: '♊' },
-  { id: 4, name: 'Yengeç', nameEn: 'Cancer', icon: '♋' },
-  { id: 5, name: 'Aslan', nameEn: 'Leo', icon: '♌' },
-  { id: 6, name: 'Başak', nameEn: 'Virgo', icon: '♍' },
-  { id: 7, name: 'Terazi', nameEn: 'Libra', icon: '♎' },
-  { id: 8, name: 'Akrep', nameEn: 'Scorpio', icon: '♏' },
-  { id: 9, name: 'Yay', nameEn: 'Sagittarius', icon: '♐' },
-  { id: 10, name: 'Oğlak', nameEn: 'Capricorn', icon: '♑' },
-  { id: 11, name: 'Kova', nameEn: 'Aquarius', icon: '♒' },
-  { id: 12, name: 'Balık', nameEn: 'Pisces', icon: '♓' },
+  { id: 1, name: "Koç", nameEn: "Aries", icon: "♈" },
+  { id: 2, name: "Boğa", nameEn: "Taurus", icon: "♉" },
+  { id: 3, name: "İkizler", nameEn: "Gemini", icon: "♊" },
+  { id: 4, name: "Yengeç", nameEn: "Cancer", icon: "♋" },
+  { id: 5, name: "Aslan", nameEn: "Leo", icon: "♌" },
+  { id: 6, name: "Başak", nameEn: "Virgo", icon: "♍" },
+  { id: 7, name: "Terazi", nameEn: "Libra", icon: "♎" },
+  { id: 8, name: "Akrep", nameEn: "Scorpio", icon: "♏" },
+  { id: 9, name: "Yay", nameEn: "Sagittarius", icon: "♐" },
+  { id: 10, name: "Oğlak", nameEn: "Capricorn", icon: "♑" },
+  { id: 11, name: "Kova", nameEn: "Aquarius", icon: "♒" },
+  { id: 12, name: "Balık", nameEn: "Pisces", icon: "♓" },
 ];
 
 export default function Horoscope() {
   const [selectedZodiac, setSelectedZodiac] = useState(1);
   const { language } = useLanguage();
 
-  const { data: horoscope, isLoading } = trpc.horoscope.getTodayByZodiac.useQuery(
-    { zodiacSignId: selectedZodiac },
-    { enabled: !!selectedZodiac }
-  );
+  const { data: horoscope, isLoading } =
+    trpc.horoscope.getTodayByZodiac.useQuery(
+      { zodiacSignId: selectedZodiac },
+      { enabled: !!selectedZodiac }
+    );
 
   const selectedSign = ZODIAC_SIGNS.find(s => s.id === selectedZodiac);
 
   const getHoroscopeText = () => {
     if (!horoscope) return null;
-    if (language === 'tr') return horoscope.textTr;
-    if (language === 'en') return horoscope.textEn;
-    if (language === 'el') return horoscope.textEl;
+    if (language === "tr") return horoscope.textTr;
+    if (language === "en") return horoscope.textEn;
+    if (language === "el") return horoscope.textEl;
     return horoscope.textTr;
   };
 
@@ -44,21 +45,27 @@ export default function Horoscope() {
       <div className="max-w-6xl mx-auto">
         {/* Header */}
         <div className="text-center mb-12">
-          <h1 className="text-hero mb-4 bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">Günlük Burç Yorumları</h1>
-          <p className="text-subtitle">Vedat Delek'in yapay zeka destekli günlük tahminleri</p>
+          <h1 className="text-hero mb-4 bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+            Günlük Burç Yorumları
+          </h1>
+          <p className="text-subtitle">
+            Vedat Delek'in yapay zeka destekli günlük tahminleri
+          </p>
         </div>
 
         <div className="grid lg:grid-cols-4 gap-8">
           {/* Zodiac Selector */}
           <div className="lg:col-span-1">
             <Card className="p-6 sticky top-24">
-              <h3 className="text-card-title mb-6 text-slate-900 dark:text-white">Burç Seçin</h3>
+              <h3 className="text-card-title mb-6 text-slate-900 dark:text-white">
+                Burç Seçin
+              </h3>
               <div className="grid grid-cols-2 gap-2">
-                {ZODIAC_SIGNS.map((sign) => (
+                {ZODIAC_SIGNS.map(sign => (
                   <button
                     key={sign.id}
                     onClick={() => setSelectedZodiac(sign.id)}
-                    className={`zodiac-sign-card ${selectedZodiac === sign.id ? 'active' : ''}`}
+                    className={`zodiac-sign-card ${selectedZodiac === sign.id ? "active" : ""}`}
                     disabled={isLoading}
                   >
                     <div className="text-2xl mb-1">{sign.icon}</div>
@@ -78,8 +85,12 @@ export default function Horoscope() {
                   <div className="flex items-center gap-4 mb-8">
                     <div className="text-6xl">{selectedSign.icon}</div>
                     <div>
-                      <h2 className="text-4xl font-bold text-slate-900 dark:text-white">{selectedSign.name}</h2>
-                      <p className="text-slate-600 dark:text-slate-400 text-lg">{selectedSign.nameEn}</p>
+                      <h2 className="text-4xl font-bold text-slate-900 dark:text-white">
+                        {selectedSign.name}
+                      </h2>
+                      <p className="text-slate-600 dark:text-slate-400 text-lg">
+                        {selectedSign.nameEn}
+                      </p>
                     </div>
                   </div>
 
@@ -94,7 +105,7 @@ export default function Horoscope() {
                         <div className="flex items-start gap-3 mb-4">
                           <Sparkles className="w-5 h-5 text-blue-600 flex-shrink-0 mt-1" />
                           <p className="text-lg text-slate-700 dark:text-slate-300 leading-relaxed">
-                            {getHoroscopeText() || 'Tahmin yükleniyor...'}
+                            {getHoroscopeText() || "Tahmin yükleniyor..."}
                           </p>
                         </div>
                       </div>
@@ -111,16 +122,22 @@ export default function Horoscope() {
             {/* Info Cards */}
             <div className="grid md:grid-cols-2 gap-6">
               <Card className="p-6 bg-gradient-to-br from-blue-50 to-blue-100 dark:from-slate-800 dark:to-slate-900 border-blue-200 dark:border-slate-700">
-                <h3 className="text-card-title mb-2 text-slate-900 dark:text-white">Bugün Neler Bekleniyor?</h3>
+                <h3 className="text-card-title mb-2 text-slate-900 dark:text-white">
+                  Bugün Neler Bekleniyor?
+                </h3>
                 <p className="text-slate-600 dark:text-slate-400">
-                  Vedat Delek'in yapay zeka destekli analizi ile bugünün enerjisini ve fırsatlarını keşfedin.
+                  Vedat Delek'in yapay zeka destekli analizi ile bugünün
+                  enerjisini ve fırsatlarını keşfedin.
                 </p>
               </Card>
 
               <Card className="p-6 bg-gradient-to-br from-purple-50 to-purple-100 dark:from-slate-800 dark:to-slate-900 border-purple-200 dark:border-slate-700">
-                <h3 className="text-card-title mb-2 text-slate-900 dark:text-white">Kişisel Analiz</h3>
+                <h3 className="text-card-title mb-2 text-slate-900 dark:text-white">
+                  Kişisel Analiz
+                </h3>
                 <p className="text-slate-600 dark:text-slate-400">
-                  Doğum haritanız için özel analiz ve rehberlik almak istiyorsanız, hizmetlerimizi keşfedin.
+                  Doğum haritanız için özel analiz ve rehberlik almak
+                  istiyorsanız, hizmetlerimizi keşfedin.
                 </p>
               </Card>
             </div>

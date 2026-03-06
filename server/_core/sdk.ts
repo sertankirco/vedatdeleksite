@@ -18,7 +18,7 @@ export type SessionPayload = {
 };
 
 class SDKServer {
-  constructor() { }
+  constructor() {}
 
   private parseCookies(cookieHeader: string | undefined) {
     if (!cookieHeader) {
@@ -46,7 +46,7 @@ class SDKServer {
     return this.signSession(
       {
         openId,
-        appId: ENV.appId,
+        appId: "astro-admin",
         name: options.name || "",
       },
       options
@@ -107,32 +107,7 @@ class SDKServer {
     }
   }
 
-  async getUserInfoWithJwt(
-    jwtToken: string
-  ): Promise<GetUserInfoWithJwtResponse> {
-    const payload: GetUserInfoWithJwtRequest = {
-      jwtToken,
-      projectId: ENV.appId,
-    };
-
-    const { data } = await this.client.post<GetUserInfoWithJwtResponse>(
-      GET_USER_INFO_WITH_JWT_PATH,
-      payload
-    );
-
-    const loginMethod = this.deriveLoginMethod(
-      (data as any)?.platforms,
-      (data as any)?.platform ?? data.platform ?? null
-    );
-    return {
-      ...(data as any),
-      platform: loginMethod,
-      loginMethod,
-    } as GetUserInfoWithJwtResponse;
-  }
-
   async authenticateRequest(req: Request): Promise<User> {
-    // Regular authentication flow
     const cookies = this.parseCookies(req.headers.cookie);
     const sessionCookie = cookies.get(COOKIE_NAME);
     const session = await this.verifySession(sessionCookie);
@@ -142,37 +117,23 @@ class SDKServer {
     }
 
     const sessionUserId = session.openId;
-    const signedInAt = new Date();
-    let user = await db.getUserByOpenId(sessionUserId);
 
-    // If user not in DB, sync from OAuth server automatically
-    if (!user) {
-      try {
-        const userInfo = await this.getUserInfoWithJwt(sessionCookie ?? "");
-        await db.upsertUser({
-          openId: userInfo.openId,
-          name: userInfo.name || null,
-          email: userInfo.email ?? null,
-          loginMethod: userInfo.loginMethod ?? userInfo.platform ?? null,
-          lastSignedIn: signedInAt,
-        });
-        user = await db.getUserByOpenId(userInfo.openId);
-      } catch (error) {
-        console.error("[Auth] Failed to sync user from OAuth:", error);
-        throw ForbiddenError("Failed to sync user info");
-      }
+    if (sessionUserId === "admin") {
+      return {
+        id: 1,
+        openId: "admin",
+        name: "Admin",
+        email: "admin@astro.net",
+        role: "admin",
+        loginMethod: "local",
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString(),
+        lastSignedIn: new Date().toISOString(),
+        password: null,
+      } as unknown as User;
     }
 
-    if (!user) {
-      throw ForbiddenError("User not found");
-    }
-
-    await db.upsertUser({
-      openId: user.openId,
-      lastSignedIn: signedInAt,
-    });
-
-    return user;
+    throw ForbiddenError("User not found");
   }
 }
 
