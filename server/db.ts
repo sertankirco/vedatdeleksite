@@ -22,11 +22,15 @@ export async function getDb() {
   if (!_db) {
     try {
       if (!_sqlite) {
+        console.log("[Database] Attempting to connect to sqlite.db...");
         _sqlite = new Database("sqlite.db");
+        console.log("[Database] sqlite.db connection successful.");
       }
       _db = drizzle(_sqlite);
     } catch (error) {
-      console.warn("[Database] Failed to connect:", error);
+      console.error("[Database] Failed to connect:", error);
+      console.error("[Database] Error Name:", (error as Error).name);
+      console.error("[Database] Error Message:", (error as Error).message);
       _db = null;
     }
   }
