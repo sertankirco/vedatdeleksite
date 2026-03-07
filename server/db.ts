@@ -15,8 +15,11 @@ import {
 import { ENV } from "./_core/env";
 
 import path from "path";
+import Database from "better-sqlite3";
+import { drizzle } from "drizzle-orm/better-sqlite3";
 
-// ... inside the file, but let's just replace the whole getDb for clarity ...
+let _db: any = null;
+let _sqlite: Database.Database | null = null;
 
 export async function getDb() {
   if (!_db) {
