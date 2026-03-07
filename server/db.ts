@@ -14,23 +14,32 @@ import {
 } from "../drizzle/schema";
 import { ENV } from "./_core/env";
 
-let _db: ReturnType<typeof drizzle> | null = null;
-let _sqlite: Database.Database | null = null;
+import path from "path";
 
-// Lazily create the drizzle instance so local tooling can run without a DB.
+// ... inside the file, but let's just replace the whole getDb for clarity ...
+
 export async function getDb() {
   if (!_db) {
     try {
       if (!_sqlite) {
-        console.log("[Database] Attempting to connect to sqlite.db...");
-        _sqlite = new Database("sqlite.db");
+        const dbPath = path.resolve(process.cwd(), "sqlite.db");
+        console.log(`[Database] Attempting to connect to: ${dbPath}`);
+        console.log(`[Database] Current Working Directory: ${process.cwd()}`);
+
+        _sqlite = new Database(dbPath);
         console.log("[Database] sqlite.db connection successful.");
+
+        // Quick check if we can run a simple query
+        _sqlite.pragma('journal_mode = WAL');
       }
       _db = drizzle(_sqlite);
     } catch (error) {
       console.error("[Database] Failed to connect:", error);
-      console.error("[Database] Error Name:", (error as Error).name);
-      console.error("[Database] Error Message:", (error as Error).message);
+      if (error instanceof Error) {
+        console.error("[Database] Error Name:", error.name);
+        console.error("[Database] Error Message:", error.message);
+        console.error("[Database] Error Stack:", error.stack);
+      }
       _db = null;
     }
   }
