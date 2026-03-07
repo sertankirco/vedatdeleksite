@@ -1,6 +1,4 @@
 import { eq, desc, and } from "drizzle-orm";
-import { drizzle } from "drizzle-orm/better-sqlite3";
-import Database from "better-sqlite3";
 import {
   InsertUser,
   users,
