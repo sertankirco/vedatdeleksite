@@ -39,7 +39,10 @@ export default function AdminBlog() {
       setIsCreating(false);
       refetch();
     },
-    onError: () => toast.error("Hata oluştu"),
+    onError: (error) => {
+      console.error(error);
+      toast.error(`Hata oluştu: ${error.message}`);
+    },
   });
 
   const deleteMutation = trpc.blog.delete.useMutation({
