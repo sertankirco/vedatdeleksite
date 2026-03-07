@@ -13,6 +13,7 @@ import {
 import { ENV } from "./_core/env";
 
 import path from "path";
+import fs from "fs";
 import Database from "better-sqlite3";
 import { drizzle } from "drizzle-orm/better-sqlite3";
 
@@ -22,15 +23,23 @@ let _sqlite: Database.Database | null = null;
 export async function getDb() {
   if (!_db) {
     try {
-      if (!_sqlite) {
-        const dbPath = path.resolve(process.cwd(), "sqlite.db");
-        console.log(`[Database] Attempting to connect to: ${dbPath}`);
-        console.log(`[Database] Current Working Directory: ${process.cwd()}`);
+      const dbPath = path.resolve(process.cwd(), "sqlite.db");
+      const dbDir = path.dirname(dbPath);
 
+      console.log(`[Database] Attempting to connect to: ${dbPath}`);
+      console.log(`[Database] Current Working Directory: ${process.cwd()}`);
+
+      // Check directory permissions
+      try {
+        fs.accessSync(dbDir, fs.constants.W_OK);
+        console.log(`[Database] Directory is writable: ${dbDir}`);
+      } catch (err) {
+        console.error(`[Database] Directory is NOT writable: ${dbDir}`, err);
+      }
+
+      if (!_sqlite) {
         _sqlite = new Database(dbPath);
         console.log("[Database] sqlite.db connection successful.");
-
-        // Quick check if we can run a simple query
         _sqlite.pragma('journal_mode = WAL');
       }
       _db = drizzle(_sqlite);
