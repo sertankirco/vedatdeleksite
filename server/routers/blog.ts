@@ -39,7 +39,7 @@ export const blogRouter = router({
         contentEl: z.string().optional(),
         contentEn: z.string().optional(),
         contentTr: z.string().optional(),
-        imageUrl: z.string().url().optional(),
+        imageUrl: z.string().url().optional().or(z.literal("")).transform(v => v || undefined),
       })
     )
     .mutation(async ({ ctx, input }) => {
@@ -63,7 +63,7 @@ export const blogRouter = router({
           contentEl: z.string().optional(),
           contentEn: z.string().optional(),
           contentTr: z.string().optional(),
-          imageUrl: z.string().url().optional(),
+          imageUrl: z.string().url().optional().or(z.literal("")).transform(v => v || undefined),
         }),
       })
     )
