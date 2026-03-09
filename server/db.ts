@@ -12,49 +12,24 @@ import {
 } from "../drizzle/schema";
 import { ENV } from "./_core/env";
 
-import path from "path";
-import fs from "fs";
-import Database from "better-sqlite3";
-import { drizzle } from "drizzle-orm/better-sqlite3";
-import { fileURLToPath } from "url";
+import pg from "pg";
+import { drizzle } from "drizzle-orm/node-postgres";
 
-let _db: any = null;
-let _sqlite: Database.Database | null = null;
+const { Pool } = pg;
 
-function getDbPath(): string {
-  // Try multiple approaches to find the db file in case CWD is unexpected
-  const candidates = [
-    path.resolve(process.cwd(), "sqlite.db"),
-    // Use __dirname-equivalent for ESM to find the file relative to this file's location
-    path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..", "sqlite.db"),
-    path.resolve(path.dirname(fileURLToPath(import.meta.url)), "sqlite.db"),
-  ];
-
-  for (const candidate of candidates) {
-    if (fs.existsSync(candidate)) {
-      console.log(`[Database] Found sqlite.db at: ${candidate}`);
-      return candidate;
-    }
-  }
-
-  // If not found, return the default path and let the Database constructor create it
-  const defaultPath = path.resolve(process.cwd(), "sqlite.db");
-  console.log(`[Database] sqlite.db not found, will create at: ${defaultPath}`);
-  return defaultPath;
-}
+let _db: ReturnType<typeof drizzle> | null = null;
 
 export async function getDb() {
   if (!_db) {
+    const connectionString = ENV.databaseUrl || process.env.DATABASE_URL;
+    if (!connectionString) {
+      console.error("[Database] DATABASE_URL environment variable is not set");
+      return null;
+    }
     try {
-      const dbPath = getDbPath();
-      console.log(`[Database] Connecting to: ${dbPath}`);
-
-      if (!_sqlite) {
-        _sqlite = new Database(dbPath);
-        _sqlite.pragma("journal_mode = WAL");
-        console.log("[Database] Connection established.");
-      }
-      _db = drizzle(_sqlite);
+      const pool = new Pool({ connectionString });
+      _db = drizzle(pool);
+      console.log("[Database] PostgreSQL connection established.");
     } catch (error) {
       console.error("[Database] Connection failed:", error);
       _db = null;

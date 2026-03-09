@@ -1,2 +1,2 @@
-[phases.setup]
-nixPkgs = ['python3', 'gnumake', 'gcc']
+[start]
+cmd = 'pnpm run db:push && node dist/index.js'

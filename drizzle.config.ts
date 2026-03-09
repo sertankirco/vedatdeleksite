@@ -3,6 +3,7 @@ import * as dotenv from "dotenv";
 import { resolve } from "path";
 
 dotenv.config({ path: resolve(process.cwd(), ".env.local") });
+dotenv.config({ path: resolve(process.cwd(), ".env") });
 
 const connectionString = process.env.DATABASE_URL;
 if (!connectionString) {
@@ -12,7 +13,7 @@ if (!connectionString) {
 export default defineConfig({
   schema: "./drizzle/schema.ts",
   out: "./drizzle",
-  dialect: "sqlite",
+  dialect: "postgresql",
   dbCredentials: {
     url: connectionString,
   },
