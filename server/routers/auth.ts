@@ -34,9 +34,9 @@ export const authRouter = router({
         email: "admin@astro.net",
         role: "admin",
         loginMethod: "local",
-        createdAt: new Date().toISOString(),
-        updatedAt: new Date().toISOString(),
-        lastSignedIn: new Date().toISOString(),
+        createdAt: new Date(),
+        updatedAt: new Date(),
+        lastSignedIn: new Date(),
         password: "", // not needed in response
       };
 

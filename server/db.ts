@@ -95,11 +95,11 @@ export async function upsertUser(user: InsertUser): Promise<void> {
     }
 
     if (!values.lastSignedIn) {
-      values.lastSignedIn = new Date().toISOString();
+      values.lastSignedIn = new Date();
     }
 
     if (Object.keys(updateSet).length === 0) {
-      updateSet.lastSignedIn = new Date().toISOString();
+      updateSet.lastSignedIn = new Date();
     }
 
     await db.insert(users).values(values).onConflictDoUpdate({
@@ -182,7 +182,7 @@ export async function getProductById(id: number) {
 export async function createProduct(data: typeof products.$inferInsert) {
   const db = await getDb();
   if (!db) throw new Error("Database not available");
-  const now = new Date().toISOString();
+  const now = new Date();
   return db.insert(products).values({
     ...data,
     createdAt: now,
@@ -219,7 +219,7 @@ export async function getBlogPostById(id: number) {
 export async function createBlogPost(data: typeof blogPosts.$inferInsert) {
   const db = await getDb();
   if (!db) throw new Error("Database not available");
-  const now = new Date().toISOString();
+  const now = new Date();
   return db.insert(blogPosts).values({
     ...data,
     publishedAt: now,
@@ -257,7 +257,7 @@ export async function getVideoById(id: number) {
 export async function createVideo(data: typeof videos.$inferInsert) {
   const db = await getDb();
   if (!db) throw new Error("Database not available");
-  const now = new Date().toISOString();
+  const now = new Date();
   return db.insert(videos).values({
     ...data,
     publishedAt: now,
